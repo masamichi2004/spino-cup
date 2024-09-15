@@ -16,9 +16,5 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "engines": {
-    "pnpm": "9.10.0",
-    "npm": "please_use_pnpm_instead"
-  },
   "packageManager": "pnpm@7.20.0"
 }

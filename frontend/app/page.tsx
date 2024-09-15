@@ -1,5 +1,7 @@
 "use client";
+
 import { useEffect, useState } from "react";
+import Loading from "./loading";
 
 export default function Home() {
   const [message, setMessage] = useState<string | undefined>(undefined);
@@ -25,7 +27,7 @@ export default function Home() {
   }, []);
 
   if (error) return <p>{error}</p>;
-  if (!message) return <p>Loading...</p>;
+  if (!message) return <Loading />;
 
   return <p>{message}</p>;
 }
