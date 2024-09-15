@@ -2,11 +2,16 @@
   "name": "spino-cup",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "private": true,
+  "workspaces": [
+    "frontend",
+    "backend"
+  ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start:backend": "cd backend && pnpm -r dev",
-    "start:frontend": "cd frontend && pnpm -r dev"
+    "start:frontend": "cd frontend && pnpm -r dev",
+    "start": "pnpm start:backend && pnpm -r start:frontend"
   },
   "keywords": [],
   "author": "",
