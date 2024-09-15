@@ -1,13 +1,13 @@
-"use client";
+'use client';
 
-import { useEffect, useState } from "react";
-import Loading from "./loading";
+import { useEffect, useState } from 'react';
+import Loading from '../loading';
 
 export default function Home() {
   const [message, setMessage] = useState<string | undefined>(undefined);
   const [error, setError] = useState<string | null>(null);
 
-  const SERVER_URL = "http://localhost:8080";
+  const SERVER_URL = 'http://localhost:8080';
 
   useEffect(() => {
     const fetchData = async () => {
@@ -19,8 +19,8 @@ export default function Home() {
         const data = await res.json();
         setMessage(data.message);
       } catch (error) {
-        console.error("Fetch error:", error);
-        setError("Failed to fetch data");
+        console.error('Fetch error:', error);
+        setError('Failed to fetch data');
       }
     };
     fetchData();
