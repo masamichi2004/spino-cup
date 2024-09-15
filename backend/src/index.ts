@@ -1,6 +1,6 @@
 import { serve } from "@hono/node-server";
 import { Hono } from "hono";
-import { MiddlewareConfig } from "../middleware/middleware.config";
+import { MiddlewareConfig } from "./middleware/middleware.config";
 
 const app = new Hono();
 
