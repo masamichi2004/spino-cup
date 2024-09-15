@@ -1,20 +1,10 @@
 import { serve } from "@hono/node-server";
 import { Hono } from "hono";
-import { cors } from "hono/cors";
+import { MiddlewareConfig } from "../middleware/middleware.config";
 
 const app = new Hono();
 
-app.use(
-  "/",
-  cors({
-    origin: ["http://localhost:3000"],
-    allowHeaders: ["X-Custom-Header", "Upgrade-Insecure-Requests"],
-    allowMethods: ["POST", "GET", "OPTIONS"],
-    exposeHeaders: ["Content-Length", "X-Kuma-Revision"],
-    maxAge: 600,
-    credentials: true,
-  })
-);
+app.use("/*", MiddlewareConfig.corsPolicy);
 
 app.get("/", (c) => {
   return c.json({ message: "Hello, Hono!" });
