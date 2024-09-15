@@ -60,7 +60,12 @@ jobs:
           reviewdog_version: latest
 
       - name: Install dependencies
-        run: pnpm install -g pnpm@9.10.0
+        run: |
+            pnpm setup
+            export PNPM_HOME=$HOME/.pnpm-global
+            export PATH=$PNPM_HOME/bin:$PATH
+            pnpm install -g pnpm@9.10.0
+
         working-directory: frontend
 
       - name: Run ESLint
