@@ -33,6 +33,12 @@ jobs:
       - name: Enable corepack
         run: corepack enable
 
+      - name: Set up pnpm
+        run: |
+            mkdir -p $HOME/.pnpm-global/bin
+            echo "export PNPM_HOME=$HOME/.pnpm-global" >> $GITHUB_ENV
+            echo "export PATH=$PNPM_HOME/bin:$PATH" >> $GITHUB_ENV
+
       - name: Install pnpm
         run: corepack prepare pnpm@latest --activate
 
