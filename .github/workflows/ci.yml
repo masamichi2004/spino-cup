@@ -33,8 +33,10 @@ jobs:
       - name: Enable corepack
         run: corepack enable
 
-      - name: Install pnpm
-        run: corepack prepare pnpm@9.10.0 --activate
+      - name: Install specific pnpm version
+        run: |
+          corepack prepare pnpm@9.10.0 --activate
+          pnpm -v  # Verify pnpm version
 
       - name: Get pnpm store directory
         id: get-store-path

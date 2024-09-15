@@ -25,5 +25,9 @@
     "prettier": "3.3.3",
     "typescript": "^5",
     "typescript-eslint": "^8.5.0"
+  },
+  "engines": {
+    "pnpm": "9.10.0",
+    "npm": "please_use_pnpm_instead"
   }
 }
