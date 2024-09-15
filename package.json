@@ -1,0 +1,19 @@
+{
+  "name": "spino-cup",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start:backend": "cd backend && pnpm -r dev",
+    "start:frontend": "cd frontend && pnpm -r dev"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "engines": {
+    "pnpm": "9.10.0",
+    "npm": "please_use_pnpm_instead"
+  },
+  "packageManager": "pnpm@7.20.0"
+}
