@@ -1,7 +1,7 @@
 import { cors } from "hono/cors";
 
-export class MiddlewareConfig {
-  static readonly corsPolicy = cors({
+export class CorsConfig {
+  static readonly policy = cors({
     origin: ["http://localhost:3000"],
     allowHeaders: ["X-Custom-Header", "Upgrade-Insecure-Requests"],
     allowMethods: ["POST", "GET", "OPTIONS"],

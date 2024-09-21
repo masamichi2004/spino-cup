@@ -1,10 +1,10 @@
 import { serve } from "@hono/node-server";
 import { Hono } from "hono";
-import { MiddlewareConfig } from "./middleware/middleware.config";
+import { CorsConfig } from "./middleware/cors";
 
 const app = new Hono();
 
-app.use("/*", MiddlewareConfig.corsPolicy);
+app.use("/*", CorsConfig.policy);
 
 app.get("/", (c) => {
   return c.json({ message: "Hello, Hono!" });
