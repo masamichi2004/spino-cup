@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import Header from "../components/Header";
+import "./globals.css";
 
 export const metadata: Metadata = {
   title: "Hono | nextjs",
@@ -12,7 +14,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <div>
+          <Header />
+        </div>
+        {children}
+      </body>
     </html>
   );
 }
