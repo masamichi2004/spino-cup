@@ -48,6 +48,13 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
 
+      - name: Verify pnpm-lock.yaml
+        run: |
+          if [ ! -f backend/pnpm-lock.yaml ]; then
+            echo "Error: pnpm-lock.yaml not found!"
+            exit 1
+          fi
+
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
         working-directory: backend
