@@ -32,7 +32,7 @@ export default function Component() {
         initial={{ x: '-100%' }}
         animate={{ x: isOpen ? 0 : '-100%' }}
         transition={{ type: 'tween', duration: 0.3 }}
-        className="fixed top-0 left-0 w-1/2 h-screen bg-white text-textcolor z-40 overflow-y-auto rounded-tr-xl"
+        className="fixed top-0 left-0 w-2/3 h-screen bg-white text-textcolor z-40 overflow-y-auto rounded-tr-xl"
       >
         <button
           onClick={toggleMenu}
