@@ -37,8 +37,19 @@ const Header = () => {
           </div>
         </div>
       </div>
-      <div className='w-full h-12 px-4'>
-        {/* この中は後々設定 */}
+      <div className='w-full h-12 px-4 py-2'>
+        <div className='h-full flex'>
+          <div>
+            {/* この中は後々設定 */}
+          </div>
+          <div className='h-full flex justify-between'>
+            <div className='self-end h-8 w-8 flex justify-center border-gray-500 border rounded-lg ml-2'>
+              <button>
+                <img src="/kebab.png" alt="" width={18} height={18} />
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
     </header>
   )
