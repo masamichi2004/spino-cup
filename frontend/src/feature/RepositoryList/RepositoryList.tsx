@@ -1,7 +1,6 @@
 import {
   ChevronDown,
   MoreHorizontal,
-  Code,
   Folder,
   FileText,
   Clock,
@@ -12,6 +11,7 @@ import {
   AvatarFallback,
   AvatarImage,
 } from '@/src/components/ui/avatar';
+import { AddMachoButton } from '@/src/feature/AddTrainingButton/AddTrainingButton';
 
 export default function Component() {
   const files = [
@@ -36,14 +36,8 @@ export default function Component() {
           </Button>
         </div>
         <div className="flex items-center space-x-2">
-          <Button
-            variant="outline"
-            size="sm"
-            className="bg-green-600 text-white hover:bg-green-700"
-          >
-            Code
-            <ChevronDown className="ml-2 h-4 w-4" />
-          </Button>
+          {/* ここにadd machoをを挿入します */}
+          <AddMachoButton />
           <Button variant="outline" size="icon" className="w-8 h-8 bg-header">
             <MoreHorizontal className="h-4 w-4" />
           </Button>
