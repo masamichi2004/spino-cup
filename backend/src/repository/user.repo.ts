@@ -8,7 +8,7 @@ export class UserRepo {
     this.firestore = new FirestoreConfig();
   }
 
-  public GET = async () => {
+  public bulkGet = async () => {
     try {
       const collectionRef = collection(this.firestore.db, "user");
       const snapshot = await getDocs(collectionRef);

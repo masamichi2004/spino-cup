@@ -10,7 +10,7 @@ const service = new UserService();
 
 app.get("/users", async (c) => {
 
-  const users = await service.GET();
+  const users = await service.bulkGet();
   return c.json(users);
 });
 
