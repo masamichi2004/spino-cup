@@ -19,6 +19,9 @@ importers:
       axios:
         specifier: ^1.7.7
         version: 1.7.7
+      btoa:
+        specifier: ^1.2.1
+        version: 1.2.1
       dotenv:
         specifier: ^16.4.5
         version: 16.4.5
@@ -711,10 +714,10 @@ packages:
 
   '@protobufjs/utf8@1.1.0':
     resolution: {integrity: sha512-Vvn3zZrhQZkkBE8LSuW3em98c0FwgO4nxzv6OdSxPKJIEKY2bGbHn+mhGIPerzI4twdxaP8/0+06HBpwf345Lw==}
-    
+
   '@radix-ui/primitive@1.1.0':
     resolution: {integrity: sha512-4Z8dn6Upk0qk4P74xBhZ6Hd/w0mPEzOOLxy4xiPXOXqjF7jZS0VAKk7/x/H6FyY2zCkYJqePf1G5KmkmNJ4RBA==}
-    
+
   '@radix-ui/react-avatar@1.1.0':
     resolution: {integrity: sha512-Q/PbuSMk/vyAd/UoIShVGZ7StHHeRFYU7wXmi5GV+8cLXflZAEpHL/F697H1klrzxKXNtZ97vWiC0q3RKUH8UA==}
     peerDependencies:
@@ -1174,6 +1177,11 @@ packages:
   browserslist@4.23.3:
     resolution: {integrity: sha512-btwCFJVjI4YWDNfau8RhZ+B1Q/VLoUITrm3RlP6y1tYGWIOa+InuYiRGXUBXo8nA1qKmHMyLB/iVQg5TT4eFoA==}
     engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
+    hasBin: true
+
+  btoa@1.2.1:
+    resolution: {integrity: sha512-SB4/MIGlsiVkMcHmT+pSmIPoNDoHg+7cMzmt3Uxt628MTz2487DKSqK/fuhFBrkuqrYv5UCEnACpF4dTFNKc/g==}
+    engines: {node: '>= 0.4.0'}
     hasBin: true
 
   buffer-equal-constant-time@1.0.1:
@@ -3519,7 +3527,6 @@ snapshots:
       '@types/react': 18.0.26
       '@types/react-dom': 18.0.10
 
-
   '@radix-ui/react-use-callback-ref@1.1.0(@types/react@18.0.26)(react@18.2.0)':
     dependencies:
       react: 18.2.0
@@ -3917,6 +3924,8 @@ snapshots:
       electron-to-chromium: 1.5.27
       node-releases: 2.0.18
       update-browserslist-db: 1.1.0(browserslist@4.23.3)
+
+  btoa@1.2.1: {}
 
   buffer-equal-constant-time@1.0.1: {}
 

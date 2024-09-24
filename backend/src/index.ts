@@ -3,6 +3,7 @@ import { Hono } from "hono";
 import { CorsConfig } from "./middleware/cors";
 import { UserService } from "./service/user.service";
 import { GithubOAuth } from "./github/github.auth";
+import { getRepositoryContent } from "./github/repository/getRepository";
 
 const app = new Hono();
 const service = new UserService();
@@ -11,6 +12,11 @@ const auth = new GithubOAuth();
 app.get("/users", async (c) => {
   const users = await service.bulkGet();
   return c.json(users);
+});
+
+app.get("/repository", async (c) => {
+  const text = await getRepositoryContent();
+  return c.text(text);
 });
 
 app.get("/example", (c) => {
@@ -84,7 +90,7 @@ app.get("/example", (c) => {
       ],
     },
   });
-})
+});
 
 app.use("/*", CorsConfig.policy);
 
