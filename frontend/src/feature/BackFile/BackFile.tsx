@@ -1,6 +1,6 @@
 import React from 'react';
-import Accordion from './Accordion';
-import BackLink from './BackLink';
+import Accordion from '../Accordion/Accordion';
+import BackLink from '../BackLink/BackLink';
 
 const BackFile = () => {
   return (
