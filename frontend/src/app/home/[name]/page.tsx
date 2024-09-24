@@ -1,8 +1,9 @@
+import Name from '@/src/feature/home/name/Name'
 import React from 'react'
 
 const page = () => {
   return (
-    <div>/home/nameです</div>
+    <Name />
   )
 }
 

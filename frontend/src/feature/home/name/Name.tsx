@@ -1,8 +1,9 @@
+import HomeNameMain from '@/src/components/HomeNameMain'
 import React from 'react'
 
 const Name = () => {
   return (
-    <div>Name</div>
+    <HomeNameMain />
   )
 }
 

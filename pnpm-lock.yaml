@@ -3137,8 +3137,7 @@ snapshots:
     optionalDependencies:
       '@types/react': 18.0.26
 
-
-'@radix-ui/react-icons@1.3.0(react@18.2.0)':
+  '@radix-ui/react-icons@1.3.0(react@18.2.0)':
     dependencies:
       react: 18.2.0
 
