@@ -33,6 +33,7 @@ export class GithubOAuth {
         headers: { Accept: "application/json" },
       }
     );
+    console.log(response.data);
     return response.data.access_token;
   };
 
@@ -54,6 +55,7 @@ export class GithubOAuth {
         name: userResponse.data.name,
         followers: userResponse.data.followers,
         following: userResponse.data.following,
+        createdAt: new Date(),
       } as User;
 
       return userInfo;
