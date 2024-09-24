@@ -3,12 +3,14 @@ import { Hono } from "hono";
 import { CorsConfig } from "./middleware/cors";
 import { UserService } from "./service/user.service";
 import { GithubOAuth } from "./github/github.auth";
-import { CreateRepository } from './github/repository/createRepository';
+import { Repo } from './github/repository/createRepository';
 
 const app = new Hono();
 const service = new UserService();
 const auth = new GithubOAuth();
-const repo = new CreateRepository();
+const ACCESS_TOKEN = process.env.GITHUB_TOKEN || '';
+const repo = new Repo(ACCESS_TOKEN);
+
 
 app.get("/users", async (c) => {
   const users = await service.bulkGet();
@@ -109,16 +111,16 @@ app.get("/auth/github/callback", async (c) => {
 });
 
 
-app.get('/create', async (c) => {
-  const repoName = c.req.query('') || 'chest';
-  const dirs = c.req.query('dirs');
-  const directories = dirs ? dirs.split(',') : ['chestpress', 'pushup', 'declinepush-up']; // デフォルトのディレクトリ
-
+app.get('/create/repo/:repoName', async (c) => {
   try {
-    await repo.create(repoName, directories);
-    return c.json({ message: `リポジトリ "${repoName}" が作成され、ディレクトリが追加されました。` });
-  } catch (error) {
-    return c.json({ error: error instanceof Error ? error.message : '予期しないエラーが発生しました。' }, 500);
+    const repoName = c.req.param('repoName');
+    const repoData = await repo.createRepository(repoName);
+    return c.json({
+      message: `リポジトリ "${repoData.name}" が作成されました。`,
+      url: repoData.html_url,
+    });
+  } catch (e) {
+    throw e;
   }
 });
 
