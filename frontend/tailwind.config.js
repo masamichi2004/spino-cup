@@ -20,7 +20,8 @@ module.exports = {
   	},
   	extend: {
   		colors: {
-        textcolor: '1F2329',
+        green: '#1E883E',
+        textcolor: '#1F2329',
         bordercolor: "#D0D9E0",
         menu: '#59636E',
         header: '#F6F8FA',
