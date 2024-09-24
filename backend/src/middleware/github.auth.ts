@@ -63,13 +63,12 @@ export class GithubOAuth {
       const userInfo: User = {
         userId: userData.login,
         accessToken,
-        avatarUrl: userResponse.data.avatar_url,
-        name: userResponse.data.name,
-        followers: userResponse.data.followers,
-        following: userResponse.data.following,
+        avatarUrl: userData.avatar_url,
+        name: userData.name,
+        followers: userData.followers,
+        following: userData.following,
         createdAt: new Date(),
-      } as User;
-
+      };
 
       return userInfo;
     } catch (error) {
