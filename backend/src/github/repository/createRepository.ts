@@ -19,7 +19,7 @@ export class Repo {
         this.accessToken = accessToken;
     }
 
-    public async createRepository(repoName: string): Promise<RepositoryData> {
+    public async createRepo(repoName: string): Promise<RepositoryData> {
         const headers = {
             'Authorization': `Bearer ${this.accessToken}`,
         };

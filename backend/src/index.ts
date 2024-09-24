@@ -114,7 +114,7 @@ app.get("/auth/github/callback", async (c) => {
 app.get('/create/repo/:repoName', async (c) => {
   try {
     const repoName = c.req.param('repoName');
-    const repoData = await repo.createRepository(repoName);
+    const repoData = await repo.createRepo(repoName);
     return c.json({
       message: `リポジトリ "${repoData.name}" が作成されました。`,
       url: repoData.html_url,
