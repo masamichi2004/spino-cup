@@ -1,6 +1,6 @@
 'use client';
 import React from "react";
-import { Button } from "../../components/ui/button"
+import { Button } from "@/src/components/ui/button"
 import {
   Dialog,
   DialogContent,
@@ -8,9 +8,9 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "../../components/ui/dialog";
-import { Input } from "../../components/ui/input";
-import { Label } from "../../components/ui/label";
+} from "@/src/components/ui/dialog";
+import { Input } from "@/src/components/ui/input";
+import { Label } from "@/src/components/ui/label";
 import { useCreateTraining } from './useCreateTraining';
 
 export function AddMachoButton() {
