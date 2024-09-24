@@ -57,7 +57,6 @@ export class GithubOAuth {
       } as User;
 
       return userInfo;
-
     } catch (error) {
       throw error;
     }
