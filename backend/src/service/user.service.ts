@@ -7,7 +7,7 @@ export class UserService {
     this.userRepo = new UserRepo();
   }
 
-  public GET = async () => {
-    return this.userRepo.GET();
+  public bulkGet = async () => {
+    return this.userRepo.bulkGet();
   };
 }
