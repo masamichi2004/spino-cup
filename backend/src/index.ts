@@ -28,21 +28,23 @@ app.get('/auth/github/callback', async (c) => {
   if (!code) return c.text('No code provided', 400);
 
   try {
-    // アクセストークンを取得
     const accessToken = await getAccessToken(code);
-
-    // アクセストークンを使ってGitHubユーザー情報を取得
     const userResponse = await axios.get('https://api.github.com/user', {
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
     });
-
-    // 取得したユーザー情報を全て返す
+    const userInfo = {
+      accessToken,
+      user_id: userResponse.data.login,
+      avatar_url: userResponse.data.avatar_url,
+      name: userResponse.data.name,
+      followers: userResponse.data.followers,
+      following: userResponse.data.following,
+    }
+    
     return c.json({
-      message: 'Authenticated successfully',
-      access_token: accessToken,
-      user: userResponse.data,
+      user: userInfo,
     });
   } catch (error) {
     console.error('Error during authentication:', error);
