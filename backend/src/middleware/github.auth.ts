@@ -54,6 +54,7 @@ export class GithubOAuth {
         name: userResponse.data.name,
         followers: userResponse.data.followers,
         following: userResponse.data.following,
+        createdAt: new Date(),
       } as User;
 
       return userInfo;
