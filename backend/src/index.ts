@@ -13,6 +13,7 @@ app.get("/users", async (c) => {
   return c.json(users);
 });
 
+
 app.use("/*", CorsConfig.policy);
 
 app.get("/", (c) => {
@@ -26,6 +27,7 @@ app.get("/auth/github", (c) => {
 app.get("/auth/github/callback", async (c) => {
   try {
     const user = await auth.validate(c);
+    await service.create(user);
     return c.json(user);
   } catch (e) {
     throw e;
