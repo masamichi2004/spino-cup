@@ -2,11 +2,13 @@ import { serve } from "@hono/node-server";
 import { Hono } from "hono";
 import { CorsConfig } from "./middleware/cors";
 import { UserService } from "./service/user.service";
-import { getGitHubOAuthURL, getAccessToken } from './middleware/github.auth';
+import { GithubOAuth } from './middleware/github.auth';
 import axios from 'axios';
+import { User } from "./model/user.model";
 
 const app = new Hono();
 const service = new UserService();
+const auth = new GithubOAuth();
 
 app.get("/users", async (c) => {
   const users = await service.bulkGet();
@@ -20,7 +22,7 @@ app.get("/", (c) => {
 });
 
 app.get('/auth/github', (c) => {
-  return c.redirect(getGitHubOAuthURL());
+  return c.redirect(auth.getGithubOAuthURL());
 });
 
 app.get('/auth/github/callback', async (c) => {
@@ -28,20 +30,20 @@ app.get('/auth/github/callback', async (c) => {
   if (!code) return c.text('No code provided', 400);
 
   try {
-    const accessToken = await getAccessToken(code);
+    const accessToken = await auth.getAccessToken(code);
     const userResponse = await axios.get('https://api.github.com/user', {
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
     });
     const userInfo = {
+      userId: userResponse.data.login,
       accessToken,
-      user_id: userResponse.data.login,
-      avatar_url: userResponse.data.avatar_url,
+      avatarUrl: userResponse.data.avatar_url,
       name: userResponse.data.name,
       followers: userResponse.data.followers,
       following: userResponse.data.following,
-    }
+    } as User;
     
     return c.json({
       user: userInfo,
