@@ -1,11 +1,11 @@
 'use client';
 import React from 'react';
-import RepositoryInfo from '@/src/components/RepositoryInfo';
+import PartPage from '@/src/feature/home/name/part/Part';
 
 const page = () => {
   return (
     <div>
-      <RepositoryInfo />
+      <PartPage />
     </div>
   );
 };
