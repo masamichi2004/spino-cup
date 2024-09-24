@@ -1,9 +1,9 @@
-import Name from '@/src/feature/home/name/Name'
+import HomeNameMain from '@/src/feature/HomeNameMain/HomeNameMain'
 import React from 'react'
 
 const page = () => {
   return (
-    <Name />
+    <HomeNameMain />
   )
 }
 

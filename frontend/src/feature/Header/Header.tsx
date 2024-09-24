@@ -1,5 +1,5 @@
 import React from 'react'
-import HumberMenu from './HumberMenu'
+import HumberMenu from '../HumberMenu/HumberMenu'
 
 const Header = () => {
   return (
