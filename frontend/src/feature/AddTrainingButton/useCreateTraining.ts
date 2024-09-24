@@ -1,10 +1,10 @@
-// hooks/useCreateMacho.ts
+// hooks/useCreateTraining.ts
 import { useRouter } from "next/navigation";
 import { usePathname } from 'next/navigation';
-import { fetchPart } from './AddMacho';
+import { fetchPart } from './AddTraining';
 import { useState } from "react";
 
-export const useCreateMacho = () => {
+export const useCreateTraining = () => {
   const pathname = usePathname();
   const segments = pathname.split('/').filter(Boolean);
   const name = segments[1];

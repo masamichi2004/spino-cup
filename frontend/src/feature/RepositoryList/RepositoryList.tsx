@@ -11,7 +11,7 @@ import {
   AvatarFallback,
   AvatarImage,
 } from '@/src/components/ui/avatar';
-import { AddMachoButton } from '@/src/feature/AddMachoButton/AddMachoButton';
+import { AddMachoButton } from '@/src/feature/AddTrainingButton/AddMachoButton';
 
 export default function Component() {
   const files = [
