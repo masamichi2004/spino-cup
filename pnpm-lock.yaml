@@ -28,6 +28,9 @@ importers:
       hono:
         specifier: ^4.6.1
         version: 4.6.1
+      ts-node:
+        specifier: ^10.9.2
+        version: 10.9.2(@types/node@20.16.5)(typescript@5.6.2)
     devDependencies:
       '@types/node':
         specifier: ^20.11.17
@@ -2531,7 +2534,6 @@ snapshots:
   '@cspotcode/source-map-support@0.8.1':
     dependencies:
       '@jridgewell/trace-mapping': 0.3.9
-    optional: true
 
   '@esbuild/aix-ppc64@0.23.1':
     optional: true
@@ -3057,7 +3059,6 @@ snapshots:
     dependencies:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.0
-    optional: true
 
   '@js-sdsl/ordered-map@4.4.2': {}
 
@@ -3156,17 +3157,13 @@ snapshots:
 
   '@tootallnate/once@2.0.0': {}
 
-  '@tsconfig/node10@1.0.11':
-    optional: true
+  '@tsconfig/node10@1.0.11': {}
 
-  '@tsconfig/node12@1.0.11':
-    optional: true
+  '@tsconfig/node12@1.0.11': {}
 
-  '@tsconfig/node14@1.0.3':
-    optional: true
+  '@tsconfig/node14@1.0.3': {}
 
-  '@tsconfig/node16@1.0.4':
-    optional: true
+  '@tsconfig/node16@1.0.4': {}
 
   '@types/body-parser@1.19.5':
     dependencies:
@@ -3343,7 +3340,6 @@ snapshots:
   acorn-walk@8.3.4:
     dependencies:
       acorn: 8.12.1
-    optional: true
 
   acorn@8.12.1: {}
 
@@ -3387,8 +3383,7 @@ snapshots:
       normalize-path: 3.0.0
       picomatch: 2.3.1
 
-  arg@4.1.3:
-    optional: true
+  arg@4.1.3: {}
 
   arg@5.0.2: {}
 
@@ -3581,8 +3576,7 @@ snapshots:
 
   concat-map@0.0.1: {}
 
-  create-require@1.1.1:
-    optional: true
+  create-require@1.1.1: {}
 
   cross-spawn@6.0.5:
     dependencies:
@@ -3642,8 +3636,7 @@ snapshots:
 
   didyoumean@1.2.2: {}
 
-  diff@4.0.2:
-    optional: true
+  diff@4.0.2: {}
 
   dlv@1.1.3: {}
 
@@ -4485,8 +4478,7 @@ snapshots:
     dependencies:
       react: 18.2.0
 
-  make-error@1.3.6:
-    optional: true
+  make-error@1.3.6: {}
 
   memorystream@0.3.1: {}
 
@@ -5123,6 +5115,24 @@ snapshots:
       yn: 3.1.1
     optional: true
 
+  ts-node@10.9.2(@types/node@20.16.5)(typescript@5.6.2):
+    dependencies:
+      '@cspotcode/source-map-support': 0.8.1
+      '@tsconfig/node10': 1.0.11
+      '@tsconfig/node12': 1.0.11
+      '@tsconfig/node14': 1.0.3
+      '@tsconfig/node16': 1.0.4
+      '@types/node': 20.16.5
+      acorn: 8.12.1
+      acorn-walk: 8.3.4
+      arg: 4.1.3
+      create-require: 1.1.1
+      diff: 4.0.2
+      make-error: 1.3.6
+      typescript: 5.6.2
+      v8-compile-cache-lib: 3.0.1
+      yn: 3.1.1
+
   tslib@2.7.0: {}
 
   tsx@4.19.1:
@@ -5211,8 +5221,7 @@ snapshots:
 
   uuid@9.0.1: {}
 
-  v8-compile-cache-lib@3.0.1:
-    optional: true
+  v8-compile-cache-lib@3.0.1: {}
 
   validate-npm-package-license@3.0.4:
     dependencies:
@@ -5314,7 +5323,6 @@ snapshots:
       y18n: 5.0.8
       yargs-parser: 21.1.1
 
-  yn@3.1.1:
-    optional: true
+  yn@3.1.1: {}
 
   yocto-queue@0.1.0: {}

@@ -1,11 +1,18 @@
 import { serve } from "@hono/node-server";
 import { Hono } from "hono";
 import { CorsConfig } from "./middleware/cors";
-import { db } from "./lib/firebase.config";
+import { UserService } from "./service/user.service";
 
 const app = new Hono();
 
-const ;
+const service = new UserService();
+
+
+app.get("/users", async (c) => {
+
+  const users = await service.GET();
+  return c.json(users);
+});
 
 app.use("/*", CorsConfig.policy);
 
