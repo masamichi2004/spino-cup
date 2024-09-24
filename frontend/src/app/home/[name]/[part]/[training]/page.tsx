@@ -1,10 +1,11 @@
 'use client';
+import Training from '@/src/feature/home/name/part/training/Training';
 import React from 'react'
 
 const page = () => {
   return (
     <div>
-      /home/name/part/trainingです
+      <Training/>
     </div>
   )
 }
