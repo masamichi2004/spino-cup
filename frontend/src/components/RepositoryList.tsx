@@ -30,7 +30,7 @@ export default function Component() {
     <div className="w-full max-w-3xl mx-auto bg-white">
       <div className="flex justify-between items-center py-4 px-0 ">
         <div className="flex items-center space-x-2">
-          <Button variant="outline" size="sm">
+          <Button variant="outline" size="sm" className="bg-header">
             develop
             <ChevronDown className="ml-2 h-4 w-4" />
           </Button>
@@ -44,16 +44,16 @@ export default function Component() {
             Code
             <ChevronDown className="ml-2 h-4 w-4" />
           </Button>
-          <Button variant="outline" size="icon" className="w-8 h-8">
+          <Button variant="outline" size="icon" className="w-8 h-8 bg-header">
             <MoreHorizontal className="h-4 w-4" />
           </Button>
         </div>
       </div>
 
-      <div className="w-full max-w-2xl mx-auto bg-white rounded-lg shadow-sm border">
+      <div className="w-full max-w-2xl mx-auto bg-header rounded-lg shadow-none border">
         <div className="p-4 border-b flex items-center justify-between">
           <div className="flex items-center space-x-3">
-            <Avatar className="h-6 w-6">
+            <Avatar className="h-6 w-6 bg-header">
               <AvatarImage src="/placeholder.svg" alt="@shunkicreate" />
               <AvatarFallback>SC</AvatarFallback>
             </Avatar>

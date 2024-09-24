@@ -3,10 +3,11 @@ import RepositoryList from '@/src/components/RepositoryList';
 
 const PartPage = () => {
   return (
-    <div style={{ padding: '16px' }}>
+    <div className="p-4">
       <h1>
         <div>
           <RepositoryInfo />
+          <hr className="border border-gray-300 px-0" />
           <RepositoryList />
         </div>
       </h1>
