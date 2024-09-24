@@ -1,6 +1,7 @@
 import { Button } from "@/src/components/ui/button";
 import { Input } from "@/src/components/ui/input";
 import { MonitorIcon } from "lucide-react";
+import { NewRepositoryButton } from "../NewRepositoryButton/NewRepositoryButton";
 
 export default function HomeNameMain() {
   const pinnedItems = [
@@ -80,7 +81,7 @@ export default function HomeNameMain() {
           </svg>
         </div>
       </div>
-
+      <NewRepositoryButton />
       <div>
         <div className="flex justify-between items-center mb-2">
           <h2 className="text-lg font-semibold">Pinned</h2>
