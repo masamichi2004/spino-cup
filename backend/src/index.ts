@@ -1,8 +1,11 @@
 import { serve } from "@hono/node-server";
 import { Hono } from "hono";
 import { CorsConfig } from "./middleware/cors";
+import { db } from "./lib/firebase.config";
 
 const app = new Hono();
+
+const ;
 
 app.use("/*", CorsConfig.policy);
 
