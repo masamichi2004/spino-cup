@@ -23,7 +23,7 @@ export function AddMachoButton() {
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>New Repository!</DialogTitle>
+          <DialogTitle>New Training!</DialogTitle>
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <div className="grid grid-cols-4 items-center gap-4">
