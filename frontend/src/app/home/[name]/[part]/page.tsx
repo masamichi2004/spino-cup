@@ -1,13 +1,13 @@
 'use client';
-import React from 'react'
+import React from 'react';
+import PartPage from '@/src/feature/home/name/part/Part';
 
 const page = () => {
-
   return (
     <div>
-      <h1>/home/name/partです</h1>
+      <PartPage />
     </div>
-  )
-}
+  );
+};
 
-export default page
+export default page;
