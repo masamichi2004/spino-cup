@@ -1,10 +1,10 @@
-import axios from "axios";
 import { User } from "../model/user.model";
 
 export class GithubOAuth {
   private readonly CLIENT_ID: string;
   private readonly CLIENT_SECRET: string;
   private readonly CALLBACK_URL: string;
+
   constructor() {
     this.CLIENT_ID = process.env.GITHUB_CLIENT_ID! as string;
     this.CLIENT_SECRET = process.env.GITHUB_CLIENT_SECRET! as string;
@@ -22,19 +22,25 @@ export class GithubOAuth {
   };
 
   private getAccessToken = async (code: string) => {
-    const response = await axios.post(
-      "https://github.com/login/oauth/access_token",
-      {
+    const res = await fetch("https://github.com/login/oauth/access_token", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify({
         client_id: this.CLIENT_ID,
         client_secret: this.CLIENT_SECRET,
         code,
-      },
-      {
-        headers: { Accept: "application/json" },
-      }
-    );
-    console.log(response.data);
-    return response.data.access_token;
+      }),
+    });
+
+    if (!res.ok) {
+      throw new Error("Failed to fetch access token");
+    }
+
+    const data = await res.json();
+    return data.access_token;
   };
 
   public validate = async (c: any): Promise<User> => {
@@ -42,21 +48,27 @@ export class GithubOAuth {
     if (!code) return c.text("No code provided", 400);
     try {
       const accessToken = await this.getAccessToken(code);
-      const userResponse = await axios.get("https://api.github.com/user", {
+      const userResponse = await fetch("https://api.github.com/user", {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
       });
 
-      const userInfo = {
-        userId: userResponse.data.login,
+      if (!userResponse.ok) {
+        throw new Error("Failed to fetch user info");
+      }
+
+      const userData = await userResponse.json();
+
+      const userInfo: User = {
+        userId: userData.login,
         accessToken,
-        avatarUrl: userResponse.data.avatar_url,
-        name: userResponse.data.name,
-        followers: userResponse.data.followers,
-        following: userResponse.data.following,
+        avatarUrl: userData.avatar_url,
+        name: userData.name,
+        followers: userData.followers,
+        following: userData.following,
         createdAt: new Date(),
-      } as User;
+      };
 
       return userInfo;
     } catch (error) {
