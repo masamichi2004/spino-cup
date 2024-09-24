@@ -2,7 +2,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/src/components/ui/ca
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { FolderIcon, FileIcon, EditIcon } from "lucide-react"
 
-export default function Component() {
+export default function TrainingFile() {
   const files = [
     { name: "..", type: "folder", lastCommit: "" },
     { name: "src", type: "folder", lastCommit: "15 hours ago" },
@@ -16,17 +16,7 @@ export default function Component() {
   return (
     <div className="max-w-4xl mx-auto p-4 space-y-4">
       <div className="flex items-center space-x-2 text-sm text-gray-500">
-        <img
-          alt="User avatar"
-          className="rounded-full"
-          height="24"
-          src="/placeholder.svg"
-          style={{
-            aspectRatio: "24/24",
-            objectFit: "cover",
-          }}
-          width="24"
-        />
+        <img src="/testiphoneimg.png" alt="githubのiconの代わり" className='w-8 h-8 rounded-full' />
         <span>masamichi2004</span>
         <span>15 hours ago</span>
       </div>
@@ -51,7 +41,10 @@ export default function Component() {
                     ) : (
                       <FileIcon className="inline mr-2 h-4 w-4 text-gray-500" />
                     )}
-                    {file.name}
+                    {/* 一旦ね */}
+                    <a href="/home/name/part/training">
+                      {file.name}
+                    </a>
                   </TableCell>
                   <TableCell className="text-right">{file.lastCommit}</TableCell>
                 </TableRow>
