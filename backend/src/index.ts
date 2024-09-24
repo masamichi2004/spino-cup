@@ -2,8 +2,6 @@ import { serve } from "@hono/node-server";
 import { Hono } from "hono";
 import { CorsConfig } from "./middleware/cors";
 import { UserService } from "./service/user.service";
-import axios from 'axios';
-import { User } from "./model/user.model";
 import { GithubOAuth } from "./middleware/github.auth";
 
 const app = new Hono();
