@@ -40,7 +40,7 @@ export default function PrMain() {
           </TabsList>
           <TabsContent value="conversation">
             <Card className="w-full max-w-md">
-              <CardHeader className="flex flex-row items-center space-x-4 p-4">
+              <CardHeader className="flex flex-row items-center space-x-4 px-4 py-1 bg-header border-b">
                 <Avatar className="h-8 w-8">
                   <AvatarImage src="/placeholder.svg?height=32&width=32" alt="@masamichi2004" />
                   <AvatarFallback>M</AvatarFallback>
@@ -70,8 +70,10 @@ export default function PrMain() {
                 </button>
               </CardHeader>
               <CardContent className="p-4 pt-0">
-                <p className="text-sm text-muted-foreground">No description provided.</p>
-                <div className="mt-2 text-2xl">☺️</div>
+                <p className="text-sm text-muted-foreground py-4">No description provided.</p>
+                <div className="bg-header rounded-full w-8 h-8 flex justify-center items-center">
+                  <img src="/smile.png" alt="笑顔" className="w-6 h-6" />
+                </div>
               </CardContent>
             </Card>
             <div className="mt-4 pt-4">
