@@ -2,7 +2,7 @@ import { serve } from "@hono/node-server";
 import { Hono } from "hono";
 import { CorsConfig } from "./middleware/cors";
 import { UserService } from "./service/user.service";
-import { GithubOAuth } from "./middleware/github.auth";
+import { GithubOAuth } from "./github/github.auth";
 
 const app = new Hono();
 const service = new UserService();
