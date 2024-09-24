@@ -1,14 +1,22 @@
 import axios from "axios";
+import { User } from "../model/user.model";
+
+
 
 export class GithubOAuth {
-  private static readonly CLIENT_ID = process.env.GITHUB_CLIENT_ID!;
-  private static readonly CLIENT_SECRET = process.env.GITHUB_CLIENT_SECRET!;
-  private static readonly CALLBACK_URL = process.env.GITHUB_CALLBACK_URL!;
+  private readonly CLIENT_ID: string;
+  private readonly CLIENT_SECRET: string;
+  private readonly CALLBACK_URL: string;
+  constructor(){
+    this.CLIENT_ID = process.env.GITHUB_CLIENT_ID! as string;
+    this.CLIENT_SECRET = process.env.GITHUB_CLIENT_SECRET! as string;
+    this.CALLBACK_URL = process.env.GITHUB_CALLBACK_URL! as string;  
+  }
 
-  private getGithubOAuthURL = () => {
+  public getGithubOAuthURL = () => {
     const params = new URLSearchParams({
-      client_id: process.env.GITHUB_CLIENT_ID!,
-      redirect_uri: process.env.GITHUB_CALLBACK_URL!,
+      client_id: this.CLIENT_ID,
+      redirect_uri: this.CALLBACK_URL,
       scope: "read:user",
     });
     const url = `https://github.com/login/oauth/authorize?${params.toString()}`;
@@ -19,8 +27,8 @@ export class GithubOAuth {
     const response = await axios.post(
       "https://github.com/login/oauth/access_token",
       {
-        client_id: process.env.GITHUB_CLIENT_ID!,
-        client_secret: process.env.GITHUB_CLIENT_SECRET!,
+        client_id: this.CLIENT_ID,
+        client_secret: this.CLIENT_SECRET,
         code,
       },
       {
@@ -29,4 +37,33 @@ export class GithubOAuth {
     );
     return response.data.access_token;
   };
+
+  public validate = async (c:any) => {
+    const code = c.req.query('code');
+    if (!code) return c.text('No code provided', 400);
+    try {
+      const accessToken = await this.getAccessToken(code);
+      const userResponse = await axios.get('https://api.github.com/user', {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+
+      const userInfo = {
+        userId: userResponse.data.login,
+        accessToken,
+        avatarUrl: userResponse.data.avatar_url,
+        name: userResponse.data.name,
+        followers: userResponse.data.followers,
+        following: userResponse.data.following,
+      } as User;
+
+      return c.json({
+        user: userInfo,
+      });
+    } catch (error) {
+      console.error('Error during authentication:', error);
+      return c.text('Authentication failed', 500);
+    }
+  }
 }
