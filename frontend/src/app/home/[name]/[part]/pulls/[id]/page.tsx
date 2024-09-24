@@ -1,9 +1,9 @@
-import PR from '@/src/feature/home/name/part/pulls/id/PR'
+import PrMain from '@/src/feature/PrMain/PrMain'
 import React from 'react'
 
 const page = () => {
   return (
-    <PR/>
+    <PrMain/>
   )
 }
 
