@@ -10,34 +10,10 @@ import {
 } from "@/src/components/ui/dialog";
 import { Input } from "@/src/components/ui/input";
 import { Label } from "@/src/components/ui/label";
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { usePathname } from 'next/navigation';
-import { fetchData } from './NewReoisitoryButton';
+import { useCreateRepository } from './useCreateRepository';
 
 export function NewRepositoryButton() {
-  const pathname = usePathname();
-  const segments = pathname.split('/').filter(Boolean);
-  const name = segments[1];
-  const [part, setPart] = useState<string>('');
-  const router = useRouter();
-
-  const handleClick = async (name: string, part: string) => {
-    if (name && part) {
-      try {
-        const result = await fetchData(part);
-        if (result) {
-          router.push(`/home/${name}/${part}`);
-        } else {
-          console.error('Error: result is undefined or falsy');
-        }
-      } catch (error) {
-        console.error("Fetch error:", error);
-      }
-    } else {
-      console.error("name or part is undefined");
-    }
-  };  
+  const { part, setPart, handleClick } = useCreateRepository();
 
   return (
     <Dialog>
@@ -57,7 +33,7 @@ export function NewRepositoryButton() {
           </div>
         </div>
         <DialogFooter>
-          <Button type="button" onClick={() => handleClick(name, part)} className="bg-green">Create Repository</Button>
+          <Button type="button" onClick={handleClick} className="bg-green">Create Repository</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
