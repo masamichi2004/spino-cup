@@ -1,22 +1,18 @@
-import { FirestoreConfig } from "../lib/firebase.config";
-import { Firestore, collection, getDocs } from "firebase/firestore";
+import { FirestoreService } from "../lib/firestore.tool";
+import { User } from "../model/user.model";
 
 export class UserRepo {
-    private readonly firestore: FirestoreConfig;
+  private readonly firestore: FirestoreService;
 
-    constructor() {
-        this.firestore = new FirestoreConfig();
-    }
+  constructor() {
+    this.firestore = new FirestoreService("User");
+  }
 
-    public bulkGet = async () => {
-        try {
-            const collectionRef = collection(this.firestore.db, "user");
-            const snapshot = await getDocs(collectionRef);
-            const users = snapshot.docs.map((doc) => doc.data());
-            return users;
-        } catch (e) {
-            console.error(e);
-            return [];
-        }
-    };
+  public bulkGet = async () => { 
+    return this.firestore.bulkGet();
+  }
+
+  public create = async (user: User) => {
+    return this.firestore.create(user);
+  };
 }

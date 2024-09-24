@@ -4,6 +4,7 @@ import { CorsConfig } from "./middleware/cors";
 import { UserService } from "./service/user.service";
 import { getGitHubOAuthURL, getAccessToken } from './middleware/github.auth';
 import axios from 'axios';
+import { User } from "./model/user.model";
 
 const app = new Hono();
 const service = new UserService();
@@ -11,6 +12,24 @@ const service = new UserService();
 app.get("/users", async (c) => {
   const users = await service.bulkGet();
   return c.json(users);
+});
+
+app.get("/user", async (c) => {
+  const user = {
+    userId: 'masamichi2004',
+    accessToken: 'hoge',
+    avatorUrl: 'https://avatars.githubusercontent.com/u/7977311?v=4',
+    name: 'Masamichi',
+    followers: 10,
+    following: 20,
+  } as User;
+  try {
+      await service.create(user);
+      return c.json(user);
+  } catch (e) {
+      console.error(e);
+      return c.text('Failed to create user', 500);
+  }
 });
 
 app.use("/*", CorsConfig.policy);
