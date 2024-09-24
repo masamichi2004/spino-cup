@@ -1,30 +1,47 @@
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { SmileIcon, MonitorIcon } from "lucide-react"
+import { Button } from "@/src/components/ui/button";
+import { Input } from "@/src/components/ui/input";
+import { MonitorIcon } from "lucide-react";
 
-export default function UserProfile() {
+export default function HomeNameMain() {
+  const pinnedItems = [
+    {
+      title: "chest",
+      visibility: "Public",
+      language: "Level 3",
+      color: "bg-blue-500"
+    },
+    {
+      title: "legs",
+      visibility: "Private",
+      language: "Level 2",
+      color: "bg-yellow-500"
+    },
+    {
+      title: "back",
+      visibility: "Public",
+      language: "Level 1",
+      color: "bg-green-500"
+    }
+  ];
+
   return (
-    <div className="max-w-md mx-auto p-6 bg-white rounded-lg shadow">
-      <div className="flex items-center space-x-4 mb-6">
+    <div className="max-w-md mx-auto p-4 bg-white">
+      <div className="flex items-center space-x-4 my-6">
         <img
-          src="/placeholder.svg?height=80&width=80"
+          src="/testiphoneimg.png"
           alt="Profile picture"
-          className="w-20 h-20 rounded-full"
+          className="w-16 h-16 rounded-full"
         />
         <div>
           <h1 className="text-2xl font-bold">hiromu</h1>
           <p className="text-gray-600">hiromuota166</p>
         </div>
       </div>
+      <Input type="text" placeholder="Set status" className="mb-4" />
 
-      <Input
-        type="text"
-        placeholder="Set status"
-        className="mb-4"
-        icon={<SmileIcon className="w-4 h-4 text-gray-400" />}
-      />
-
-      <Button className="w-full mb-6">Edit profile</Button>
+      <Button className="w-full mb-6 bg-header shadow-none border">
+        <span className="text-black">Edit profile</span>
+      </Button>
 
       <div className="flex justify-between mb-6">
         <span className="text-gray-600">
@@ -71,18 +88,21 @@ export default function UserProfile() {
             Customize your pins
           </a>
         </div>
-        <div className="border rounded-lg p-4">
-          <div className="flex items-center space-x-2">
-            <MonitorIcon className="w-5 h-5 text-gray-500" />
-            <span className="font-medium">chest</span>
-            <span className="text-gray-500 text-sm">Public</span>
+        {/* pinnedItemsをmapでループ */}
+        {pinnedItems.map((item, index) => (
+          <div key={index} className="border rounded-lg p-4 mb-4">
+            <div className="flex items-center space-x-2">
+              <MonitorIcon className="w-5 h-5 text-gray-500" />
+              <span className="font-medium">{item.title}</span>
+              <span className="text-gray-500 text-sm">{item.visibility}</span>
+            </div>
+            <div className="mt-2 flex items-center space-x-2">
+              <div className={`w-3 h-3 rounded-full ${item.color}`}></div>
+              <span>{item.language}</span>
+            </div>
           </div>
-          <div className="mt-2 flex items-center space-x-2">
-            <div className="w-3 h-3 rounded-full bg-blue-500"></div>
-            <span>TypeScript</span>
-          </div>
-        </div>
+        ))}
       </div>
     </div>
-  )
+  );
 }
