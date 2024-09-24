@@ -2,9 +2,7 @@ import { serve } from "@hono/node-server";
 import { Hono } from "hono";
 import { CorsConfig } from "./middleware/cors";
 import { UserService } from "./service/user.service";
-import { GithubOAuth } from './middleware/github.auth';
-
-
+import { GithubOAuth } from "./middleware/github.auth";
 
 const app = new Hono();
 const service = new UserService();
@@ -21,13 +19,18 @@ app.get("/", (c) => {
   return c.json({ message: "Hello, Hono!" });
 });
 
-app.get('/auth/github', (c) => {
+app.get("/auth/github", (c) => {
   return c.redirect(auth.getGithubOAuthURL());
 });
 
-app.get('/auth/github/callback', async (c) => {
-  return auth.validate(c)
-})
+app.get("/auth/github/callback", async (c) => {
+  try {
+    const user = await auth.validate(c);
+    return c.json(user);
+  } catch (e) {
+    throw e;
+  }
+});
 
 const port = 8080;
 console.log(`Server is running on port ${port}`);

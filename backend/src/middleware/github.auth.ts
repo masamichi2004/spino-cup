@@ -1,16 +1,14 @@
 import axios from "axios";
 import { User } from "../model/user.model";
 
-
-
 export class GithubOAuth {
   private readonly CLIENT_ID: string;
   private readonly CLIENT_SECRET: string;
   private readonly CALLBACK_URL: string;
-  constructor(){
+  constructor() {
     this.CLIENT_ID = process.env.GITHUB_CLIENT_ID! as string;
     this.CLIENT_SECRET = process.env.GITHUB_CLIENT_SECRET! as string;
-    this.CALLBACK_URL = process.env.GITHUB_CALLBACK_URL! as string;  
+    this.CALLBACK_URL = process.env.GITHUB_CALLBACK_URL! as string;
   }
 
   public getGithubOAuthURL = () => {
@@ -38,12 +36,12 @@ export class GithubOAuth {
     return response.data.access_token;
   };
 
-  public validate = async (c:any) => {
-    const code = c.req.query('code');
-    if (!code) return c.text('No code provided', 400);
+  public validate = async (c: any): Promise<User> => {
+    const code = c.req.query("code");
+    if (!code) return c.text("No code provided", 400);
     try {
       const accessToken = await this.getAccessToken(code);
-      const userResponse = await axios.get('https://api.github.com/user', {
+      const userResponse = await axios.get("https://api.github.com/user", {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
@@ -58,12 +56,10 @@ export class GithubOAuth {
         following: userResponse.data.following,
       } as User;
 
-      return c.json({
-        user: userInfo,
-      });
+      return userInfo;
+
     } catch (error) {
-      console.error('Error during authentication:', error);
-      return c.text('Authentication failed', 500);
+      throw error;
     }
-  }
+  };
 }
