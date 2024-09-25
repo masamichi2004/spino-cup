@@ -27,16 +27,18 @@ export default function Header() {
           </a>
           {/* 動的に変化 */}
           <div className="ml-4 w-40">
-            <button className="flex flex-col w-3/4 h-full">
-              {data.repo && data.dir ? (
-                <>
+            {data.repo && data.dir ? (
+              <>
+                <button className="flex flex-col w-3/4 h-full">
                   <span className="text-xs">{data.repo}</span>
                   <span className="text-xs font-bold">{data.dir}</span>
-                </>
-              ) : (
-                <span className="text-xs">{data.userId}</span>
-              )}
-            </button>
+                </button>
+              </>
+            ) : (
+              <button className="flex-col w-3/4 h-full">
+                <span className="text-sm font-bold">{data.userId}</span>
+              </button>
+            )}
           </div>
         </div>
         <div className="flex justify-end">
@@ -53,8 +55,8 @@ export default function Header() {
           {/* 動的に変化 */}
           <div className="self-end h-8 w-8 flex justify-center ml-2">
             <img
-              src="/testiphoneimg.png"
-              alt="githubのiconの代わり"
+              src={data.avatarUrl}
+              alt="userAvatar"
               className="w-8 h-8 rounded-full"
             />
           </div>
@@ -74,6 +76,6 @@ export default function Header() {
           </div>
         </div>
       </div>
-    </header>
+    </header >
   );
 };

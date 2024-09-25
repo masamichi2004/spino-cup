@@ -5,8 +5,8 @@ import { fetchHeaderData } from './fetchHeaderData';
 import useSegment from '@/src/hooks/useSegment';
 
 export const useHeader = () => {
-  const { lastSegment } = useSegment();
-  const userId = lastSegment;
+  const { segments } = useSegment();
+  const userId = segments[1];
   const [data, setData] = useState<any>(null);
   const [loading, setLoading] = useState<boolean>(true);
 
