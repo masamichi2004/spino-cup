@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from "react";
-import { HomeName } from "./HomeName";
+import { HomeName, saveToLocalStorage } from "./HomeName";
 import useSegment from "@/src/hooks/useSegment";
 
 export const useHomeName = () => {
@@ -14,7 +14,12 @@ export const useHomeName = () => {
     const fetchData = async () => {
       if (userId) {
         try {
-          const result = await HomeName(userId);          setData(result);
+          const result = await HomeName(userId);
+          setData(result);
+          
+          // データを localStorage に保存
+          saveToLocalStorage('homeNameData', result);
+
         } catch (error) {
           console.error("Error fetching data:", error);
         } finally {
