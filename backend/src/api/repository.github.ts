@@ -1,6 +1,6 @@
 import fetch from "node-fetch";
 import "dotenv/config";
-import { Repository } from "../../model/repository.model";
+import { Repository } from "../model/repository.model";
 
 const GITHUB_API_URL = "https://api.github.com";
 
@@ -46,7 +46,7 @@ export class Repo {
       message: commitMessage,
       content: content,
     });
-    const response = await fetch(
+    await fetch(
       `https://api.github.com/repos/${userId}/${repo}/contents/${path}/README.md`,
       {
         method: "PUT",
@@ -56,16 +56,18 @@ export class Repo {
     );
   }
 
-  public async createCommit(
+  public async commit(
     userId: string,
     repo: string,
-    filePath: string,
+    dirName: string,
     jsonData: object,
     message: string
   ) {
+    const date = new Date();
+    const file = `${dirName}-` + date.toISOString().split("T")[0];
     const fileContent = JSON.stringify(jsonData, null, 2);
     const encodedContent = Buffer.from(fileContent).toString("base64");
-    const url = `https://api.github.com/repos/${userId}/${repo}/contents/${filePath}`;
+    const url = `https://api.github.com/repos/${userId}/${repo}/contents/${dirName}/${file}.rs`;
 
     const body = {
       message,
@@ -83,7 +85,7 @@ export class Repo {
       });
 
       if (response.ok) {
-        console.log(`File ${filePath} added successfully to the repository.`);
+        console.log(`File ${file} added successfully to the repository.`);
       } else {
         const errorData = await response.json();
         console.error("Failed to add file:", errorData);
