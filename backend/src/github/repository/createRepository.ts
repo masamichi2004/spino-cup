@@ -35,15 +35,15 @@ export class Repo {
         return repoData;
     };
 
-    public async createDir(
-        repo: string,
-        path: string,
-        commitMessage: string,
-        readmeContent: string
-    ): Promise<void> {
-        const headers = {
-            'Authorization': `Bearer ${this.accessToken}`,
-        };
+    // public async createDir(
+    //     repo: string,
+    //     path: string,
+    //     commitMessage: string,
+    //     readmeContent: string
+    // ): Promise<void> {
+    //     const headers = {
+    //         'Authorization': `Bearer ${this.accessToken}`,
+    //     };
         
-    }
+    // }
 }
