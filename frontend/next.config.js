@@ -5,14 +5,15 @@ const withPWA = nextPWA({
   dest: 'public',
   register: true,
   skipWaiting: true,
-  disable: process.env.NODE_ENV === "main",
+  disable: process.env.NODE_ENV === 'main',
 });
 
-const nextConfig = withPWA({
+const nextConfig = {
   reactStrictMode: true,
   images: {
-    domains: ['lh3.googleusercontent.com', "firebasestorage.googleapis.com"],
+    domains: ['lh3.googleusercontent.com', 'firebasestorage.googleapis.com'],
   },
-});
+  ...withPWA,
+};
 
 export default nextConfig;
