@@ -2,10 +2,11 @@
 
 import { useEffect, useState } from 'react';
 import { fetchHeaderData } from './fetchHeaderData';
-import useSegment from '@/src/hooks/useSegment';
+import { usePathname } from 'next/navigation';
 
 export const useHeader = () => {
-  const { segments } = useSegment();
+  const pathname = usePathname();
+  const segments = pathname.split('/').filter(Boolean);
   const userId = segments[1];
   const [data, setData] = useState<any>(null);
   const [loading, setLoading] = useState<boolean>(true);
