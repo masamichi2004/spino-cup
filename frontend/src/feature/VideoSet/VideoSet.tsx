@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import * as tf from '@tensorflow/tfjs';
 import { load } from '@tensorflow-models/posenet';
 
-const Page: React.FC = () => {
+const VideoSet: React.FC = () => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [previousPose, setPreviousPose] = useState<any>(null);
@@ -83,7 +83,7 @@ const Page: React.FC = () => {
     };
 
     setupCamera();
-    const interval = setInterval(estimatePose, 3000); // 3秒ごとに姿勢を推定
+    const interval = setInterval(estimatePose, 1000); // 3秒ごとに姿勢を推定
 
     return () => clearInterval(interval);
   }, [previousPose]);
@@ -96,4 +96,4 @@ const Page: React.FC = () => {
   );
 };
 
-export default Page;
+export { VideoSet };
