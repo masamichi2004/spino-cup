@@ -100,12 +100,12 @@ app.post("/create/repo", async (c) => {
     const repository = { name: repoName, userId: githubId };
     await repoService.create(repository);
 
-    const repoData = await repo.create(repoName as string);
+    const repoData = await repo.create(repoName);
     if (!repoData) {
       return c.text("Failed to create a repository", 500);
     }
 
-    return c.redirect(`http://localhost:3000/home/${githubId}/${repoName}`);
+    return c.json({ redirectUrl: `http://localhost:3000/home/${githubId}/${repoName}` });
   } catch (error) {
     console.error("Error in /create/repo:", error);
     return c.text("Internal Server Error", 500);

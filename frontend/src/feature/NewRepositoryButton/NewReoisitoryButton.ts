@@ -1,50 +1,52 @@
 'use client';
+import { getFromLocalStorage } from '../HomeNameMain/HomeName';
 
-// アクセストークンを取得
-const getAccessToken = () => {
-  return localStorage.getItem('access_token');
-};
+export async function fetchData(repoName: string, githubId: string) {
+  // localStorageからトークンを取得
+  const localtoken = localStorage.getItem('homeNameData');
+  if (!localtoken) {
+    console.error('No homeNameData found in localStorage');
+    return;
+  }
 
-const fetchData = async (part: string) => {
+  const { accessToken: token } = JSON.parse(localtoken);
+  if (!token) {
+    console.error('No access token found in homeNameData');
+    return;
+  }
+
+  console.log('Token from localStorage:', token);
+
+  const url = `http://localhost:8080/create/repo`;
+  const body = { repoName, githubId };
+
   try {
-    // const token = getAccessToken(); // 動的にトークンを取得
-    const token = process.env.TAICHI_TMP_ACCESS_TOKEN;
-    const userId = 'valen0306'; // ユーザーID
-    const repositoryName = part; // 引数として渡されたpartがリポジトリ名
-
-    const response = await fetch(`http://localhost:8080/create/repo`, {
+    const response = await fetch(url, {
       method: 'POST',
       headers: {
+        Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`, // トークンをヘッダーに追加
       },
-      body: JSON.stringify({
-        repoName: repositoryName, // リポジトリ名を送信データに含める
-        githubId: userId, // ユーザーIDを送信データに含める
-      }),
+      body: JSON.stringify(body),
     });
-    console.log(response);
 
-    // HTTPステータスコードが200番台以外の場合はエラーをスロー
+    // Responseの確認
     if (!response.ok) {
-      const errorText = await response.text(); // エラー内容を取得
+      const errorText = await response.text();
       throw new Error(`Error ${response.status}: ${errorText}`);
     }
 
-    const redirectUrl = await response.text(); // リダイレクトURLを取得
-
-    location.href = redirectUrl;
+    const { redirectUrl } = await response.json();
+    if (redirectUrl) {
+      window.location.href = redirectUrl;  // リダイレクト実行
+    } else {
+      console.error('Redirect URL not found');
+    }
   } catch (error: any) {
-    // エラーハンドリングの強化
     if (error.name === 'TypeError') {
-      // ネットワークエラー（例えばサーバーがダウンしている場合）
       console.error('Network error or server is unreachable.');
     } else {
-      // サーバーからのレスポンスエラーやその他のエラー
       console.error('Fetch error:', error.message);
     }
-    return undefined; // エラー時はundefinedを返す
   }
-};
-
-export { fetchData };
+}
