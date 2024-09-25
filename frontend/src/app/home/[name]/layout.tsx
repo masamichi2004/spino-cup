@@ -1,4 +1,6 @@
-import Header from '@/src/feature/Header/Header'
+'use client'
+
+import Header from '@/src/feature/Header/Header';
 import React from 'react'
 
 export default function RootLayout({
@@ -8,9 +10,7 @@ export default function RootLayout({
 }>) {
   return (
     <div>
-      <div>
-        <Header />
-      </div>
+      <Header />
       {children}
     </div>
   );

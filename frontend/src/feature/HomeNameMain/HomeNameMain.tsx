@@ -1,9 +1,22 @@
+"use client"
+
 import { Button } from "@/src/components/ui/button";
 import { Input } from "@/src/components/ui/input";
 import { MonitorIcon } from "lucide-react";
 import { NewRepositoryButton } from "../NewRepositoryButton/NewRepositoryButton";
+import { useHomeName } from "./useHomeName";
 
 export default function HomeNameMain() {
+  const { data, loading } = useHomeName();
+
+  if (loading) {
+    return <p>Loading...</p>;
+  }
+
+  if (!data) {
+    return <p>Error: Data not found</p>;
+  }
+
   const pinnedItems = [
     {
       title: "chest",
@@ -29,13 +42,13 @@ export default function HomeNameMain() {
     <div className="max-w-md mx-auto p-4 bg-white">
       <div className="flex items-center space-x-4 my-6">
         <img
-          src="/testiphoneimg.png"
+          src={data.avatarUrl}
           alt="Profile picture"
           className="w-16 h-16 rounded-full"
         />
         <div>
-          <h1 className="text-2xl font-bold">hiromu</h1>
-          <p className="text-gray-600">hiromuota166</p>
+          <h1 className="text-2xl font-bold">{data.name || "John"}</h1>
+          <p className="text-gray-600">{data.userId || "Doe"}</p>
         </div>
       </div>
       <Input type="text" placeholder="Set status" className="mb-4" />
@@ -46,10 +59,10 @@ export default function HomeNameMain() {
 
       <div className="flex justify-between mb-6">
         <span className="text-gray-600">
-          <strong className="text-black">10</strong> followers
+          <strong className="text-black">{data.followers}</strong> followers
         </span>
         <span className="text-gray-600">
-          <strong className="text-black">10</strong> following
+          <strong className="text-black">{data.following}</strong> following
         </span>
       </div>
 

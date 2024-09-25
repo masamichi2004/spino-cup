@@ -48,7 +48,7 @@ export default function Component() {
         <div className="p-4 border-b flex items-center justify-between">
           <div className="flex items-center space-x-3">
             <Avatar className="h-6 w-6 bg-header">
-              <AvatarImage src="/placeholder.svg" alt="@shunkicreate" />
+              <AvatarImage src="/testiphoneimg.png" alt="@shunkicreate" />
               <AvatarFallback>SC</AvatarFallback>
             </Avatar>
             <span className="text-sm font-medium">Shunkicreate</span>

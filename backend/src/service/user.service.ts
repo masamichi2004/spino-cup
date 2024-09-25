@@ -15,4 +15,8 @@ export class UserService {
   public create = async (user: User) => {
     return this.userRepo.create(user);
   };
+
+  public readonly get = async (userId: string) => { 
+    return this.userRepo.get(userId);
+  }
 }
