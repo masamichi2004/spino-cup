@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import * as tf from '@tensorflow/tfjs';
 import { load } from '@tensorflow-models/posenet';
 
-const VideoSet: React.FC = () => {
+const VideoSet: React.FC<{ increaseCount: () => void }> = ({ increaseCount }) => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [previousPose, setPreviousPose] = useState<any>(null);
@@ -57,22 +57,15 @@ const VideoSet: React.FC = () => {
 
         // 座標の変化をチェック
         if (previousPose) {
-          const leftShoulder = currentPose.keypoints.find((kp: any) => kp.part === 'leftShoulder');
-          const prevLeftShoulder = previousPose.keypoints.find((kp: any) => kp.part === 'leftShoulder');
-
           const leftWrist = currentPose.keypoints.find((kp: any) => kp.part === 'leftWrist');
           const prevLeftWrist = previousPose.keypoints.find((kp: any) => kp.part === 'leftWrist');
 
-          if (leftShoulder && prevLeftShoulder && leftWrist && prevLeftWrist) {
-            const yShoulderChange = leftShoulder.position.y - prevLeftShoulder.position.y;
+          if (leftWrist && prevLeftWrist) {
             const yWristChange = leftWrist.position.y - prevLeftWrist.position.y;
-
-            if (yShoulderChange < -changeThreshold) {
-              console.log(`Left Shoulder Y position decreased: ${yShoulderChange}`);
-            }
 
             if (yWristChange < -changeThreshold) {
               console.log(`Left Wrist Y position decreased: ${yWristChange}`);
+              increaseCount(); // 親コンポーネントの関数を呼び出して回数を増やす
             }
           }
         }
@@ -83,7 +76,7 @@ const VideoSet: React.FC = () => {
     };
 
     setupCamera();
-    const interval = setInterval(estimatePose, 1000); // 3秒ごとに姿勢を推定
+    const interval = setInterval(estimatePose, 1000);
 
     return () => clearInterval(interval);
   }, [previousPose]);
