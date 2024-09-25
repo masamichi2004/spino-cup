@@ -104,7 +104,7 @@ app.get("/auth/github/callback", async (c) => {
   try {
     const user = await auth.validate(c);
     await service.create(user);
-    return c.json(user);
+    return c.redirect(`http://localhost:3000/home/${user.userId}`);
   } catch (e) {
     throw e;
   }
