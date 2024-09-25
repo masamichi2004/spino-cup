@@ -53,6 +53,8 @@ export class UserRepo {
     } catch (error) {
       if (error instanceof UniqueUserError) {
         this.update(user);
+      } else {
+        throw error;
       }
     }
   };
