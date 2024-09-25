@@ -42,7 +42,7 @@ export default function PrMain() {
             <Card className="w-full max-w-md">
               <CardHeader className="flex flex-row items-center space-x-4 px-4 py-1 bg-header border-b">
                 <Avatar className="h-8 w-8">
-                  <AvatarImage src="/placeholder.svg?height=32&width=32" alt="@masamichi2004" />
+                  <AvatarImage src="/testiphoneimg.png" alt="@masamichi2004" />
                   <AvatarFallback>M</AvatarFallback>
                 </Avatar>
                 <div className="flex-1">
