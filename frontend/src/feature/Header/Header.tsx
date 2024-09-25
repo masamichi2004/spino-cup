@@ -22,8 +22,8 @@ export default function Header() {
           <div className="flex w-8 h-auto justify-start">
             <HumberMenu />
           </div>
-          <a href="" className="w-8 h-8 flex justify-center ml-4">
-            <img src="/testicon.svg" alt="githubのiconの代わり" className="w-8 h-8" />
+          <a href="" className='w-8 h-8 flex justify-center ml-4'>
+            <img src="/macho.ico" alt="githubのiconの代わり" className='w-8 h-8' />
           </a>
           {/* 動的に変化 */}
           <div className="ml-4 w-40">
