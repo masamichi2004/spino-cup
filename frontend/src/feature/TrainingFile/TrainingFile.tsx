@@ -1,4 +1,12 @@
 'use client';
+import { Button } from '@/src/components/ui/button';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/src/components/ui/dialog';
 import {
   Card,
   CardContent,
@@ -14,7 +22,6 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { FolderIcon, FileIcon, EditIcon } from 'lucide-react';
-import { Button } from '@/src/components/ui/button';
 import { useRouter, usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
@@ -26,12 +33,17 @@ type FileItem = {
 export default function TrainingFile() {
   const pathname = usePathname();
   const router = useRouter();
-
-  const handleClick = () => {
-    router.push(`${pathname}/commit`);
-  };
-
+  const [dir, setDir] = useState(''); // New state to store directory name
+  const [isDialogOpen, setIsDialogOpen] = useState(false); // Control dialog visibility
   const [files, setFiles] = useState<FileItem[]>([]);
+
+  // Handle submit and push to new route
+  const handleSubmit = () => {
+    if (dir) {
+      router.push(`${pathname}/${dir}/commit`); // Push to '現在のURL/[dir]/commit'
+    }
+    setIsDialogOpen(false); // Close the dialog
+  };
 
   useEffect(() => {
     const localtoken = localStorage.getItem('homeNameData');
@@ -75,7 +87,7 @@ export default function TrainingFile() {
     };
 
     fetchData();
-  }, []); // 空の依存配列を指定して初回レンダリング時のみ実行
+  }, []); // Fetch files data on mount
 
   return (
     <div className="max-w-4xl mx-auto p-4 space-y-4">
@@ -90,7 +102,28 @@ export default function TrainingFile() {
           <span>15 hours ago</span>
         </div>
         <div>
-          <Button onClick={handleClick}>Add Commit</Button>
+          <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+            <DialogTrigger asChild>
+              <Button variant="outline">Add Commit</Button>
+            </DialogTrigger>
+            <DialogContent className="sm:max-w-[425px]">
+              <DialogHeader>
+                <DialogTitle>Enter Directory</DialogTitle>
+              </DialogHeader>
+              <div>
+                <input
+                  type="text"
+                  value={dir}
+                  onChange={(e) => setDir(e.target.value)}
+                  placeholder="Enter directory name"
+                  className="input"
+                />
+              </div>
+              <div className="flex justify-end">
+                <Button onClick={handleSubmit}>Submit and Close</Button>
+              </div>
+            </DialogContent>
+          </Dialog>
         </div>
       </div>
       <Card>
