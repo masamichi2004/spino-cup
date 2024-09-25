@@ -4,7 +4,7 @@ import { Repository } from "../model/repository.model";
 
 const GITHUB_API_URL = "https://api.github.com";
 
-export class Repo {
+export class GithubRepo {
   private accessToken: string;
 
   constructor(accessToken: string) {
@@ -14,7 +14,7 @@ export class Repo {
     this.accessToken = accessToken;
   }
 
-  public async createRepo(repoName: string): Promise<Repository> {
+  public async create(repoName: string): Promise<Repository> {
     const headers = {
       Authorization: `Bearer ${this.accessToken}`,
     };
@@ -30,31 +30,23 @@ export class Repo {
     return repoData;
   }
 
-  public async createDir(
-    userId: string,
-    repo: string,
-    path: string,
-    commitMessage: string,
-    readmeContent: string
-  ): Promise<void> {
-    const headers = {
-      Authorization: `Bearer ${this.accessToken}`,
-      "Content-Type": "application/json",
-    };
-    const content = Buffer.from(readmeContent).toString("base64");
-    const body = JSON.stringify({
-      message: commitMessage,
-      content: content,
-    });
-    await fetch(
-      `https://api.github.com/repos/${userId}/${repo}/contents/${path}/README.md`,
-      {
-        method: "PUT",
-        headers: headers,
-        body: body,
-      }
-    );
-  }
+  // public async getDirs(
+  //   userId: string,
+  //   repoName: string,
+  //   filePath?: string
+  // ): Promise<string[]> {
+  //   const url = `${GITHUB_API_URL}/repos/${userId}/${repoName}/contents/${filePath}`;
+  //   console.log(url);
+  //   const response = await fetch(url, {
+  //     method: "GET",
+  //     headers: {
+  //       Authorization: `Bearer ${this.accessToken}`,
+  //     },
+  //   });
+  //   console.log(response);
+
+  //   return [];
+  // }
 
   public async commit(
     userId: string,
@@ -67,7 +59,7 @@ export class Repo {
     const file = `${dirName}-` + date.toISOString().split("T")[0];
     const fileContent = JSON.stringify(jsonData, null, 2);
     const encodedContent = Buffer.from(fileContent).toString("base64");
-    const url = `https://api.github.com/repos/${userId}/${repo}/contents/${dirName}/${file}.rs`;
+    const url = `https://api.github.com/repos/${userId}/${repo}/contents/${dirName}/${file}.json`;
 
     const body = {
       message,
