@@ -2,6 +2,7 @@
 'use client';
 
 import LoginCard from '@/src/feature/Login/Login';
+import Loading from './loading';
 
 export default function StartPage() {
   return (

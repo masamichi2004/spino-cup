@@ -1,10 +1,11 @@
-"use client"
+'use client';
 
-import { Button } from "@/src/components/ui/button";
-import { Input } from "@/src/components/ui/input";
-import { MonitorIcon } from "lucide-react";
-import { NewRepositoryButton } from "../NewRepositoryButton/NewRepositoryButton";
-import { useHomeName } from "./useHomeName";
+import { Button } from '@/src/components/ui/button';
+import { Input } from '@/src/components/ui/input';
+import { MonitorIcon } from 'lucide-react';
+import { NewRepositoryButton } from '../NewRepositoryButton/NewRepositoryButton';
+import { useHomeName } from './useHomeName';
+import Loading from '@/src/app/loading';
 import { Repo } from "@/src/types/Repo";
 import { useRouter } from "next/navigation";
 
@@ -12,7 +13,7 @@ export default function HomeNameMain() {
   const { data, loading, repos } = useHomeName();
 
   if (loading) {
-    return <p>Loading...</p>;
+    return <Loading />;
   }
 
   if (!data) {
@@ -33,8 +34,8 @@ export default function HomeNameMain() {
           className="w-16 h-16 rounded-full"
         />
         <div>
-          <h1 className="text-2xl font-bold">{data.name || "John"}</h1>
-          <p className="text-gray-600">{data.userId || "Doe"}</p>
+          <h1 className="text-2xl font-bold">{data.name || 'John'}</h1>
+          <p className="text-gray-600">{data.userId || 'Doe'}</p>
         </div>
       </div>
       <Input type="text" placeholder="Set status" className="mb-4" />
@@ -56,9 +57,19 @@ export default function HomeNameMain() {
         <h2 className="text-lg font-semibold mb-2">Achievements</h2>
         <div className="flex space-x-2">
           <div className="relative">
-            <svg className="w-12 h-12 text-blue-500" viewBox="0 0 24 24" fill="currentColor">
+            <svg
+              className="w-12 h-12 text-blue-500"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+            >
               <circle cx="12" cy="12" r="10" />
-              <text x="12" y="16" textAnchor="middle" fill="white" fontSize="10">
+              <text
+                x="12"
+                y="16"
+                textAnchor="middle"
+                fill="white"
+                fontSize="10"
+              >
                 M
               </text>
             </svg>
@@ -66,13 +77,21 @@ export default function HomeNameMain() {
               x2
             </span>
           </div>
-          <svg className="w-12 h-12 text-pink-500" viewBox="0 0 24 24" fill="currentColor">
+          <svg
+            className="w-12 h-12 text-pink-500"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+          >
             <circle cx="12" cy="12" r="10" />
             <text x="12" y="16" textAnchor="middle" fill="white" fontSize="8">
               YOLO
             </text>
           </svg>
-          <svg className="w-12 h-12 text-yellow-500" viewBox="0 0 24 24" fill="currentColor">
+          <svg
+            className="w-12 h-12 text-yellow-500"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+          >
             <circle cx="12" cy="12" r="10" />
             <text x="12" y="16" textAnchor="middle" fill="white" fontSize="10">
               😄
