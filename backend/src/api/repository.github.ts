@@ -48,23 +48,23 @@ export class GithubRepo {
       url = `${GITHUB_API_URL}/repos/${userId}/${repoName}/contents/${filePath}`;
     }
 
-    const response = await fetch(url, {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${this.accessToken}`,
-      },
-    });
+    try {
+      const response = await fetch(url, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${this.accessToken}`,
+        },
+      });
+      const data = (await response.json()) as DirectoryItem[];
+      const directories = data.map((item: DirectoryItem) => {
+        return { name: item.name, type: item.type } as DirectoryItem;
+      });
 
-    if (!response.ok) {
-      throw new Error("ファイルパスが不適切です");
+      return directories;
+    } catch (error) {
+      console.error("Error fetching directories:", error);
+      throw new Error();
     }
-
-    const data = (await response.json()) as DirectoryItem[];
-    const directories = data.map((item: DirectoryItem) => {
-      return { name: item.name, type: item.type } as DirectoryItem;
-    });
-
-    return directories;
   }
 
   public async commit(

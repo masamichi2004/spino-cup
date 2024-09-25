@@ -50,7 +50,10 @@ app.get("/dirs/:userId/:repoName", async (c) => {
   const repo = new GithubRepo(token);
 
   const dirs = await repo.getDirs(userId, repoName, filePath);
-  return c.json(dirs);
+  if (!dirs.length) {
+    throw new Error("Failed to fetch directories");
+  }
+  return c.json({ dirs });
 });
 
 app.get("/", (c) => {
