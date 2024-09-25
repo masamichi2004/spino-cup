@@ -34,4 +34,16 @@ export class Repo {
         const repoData = await response.json() as RepositoryData;
         return repoData;
     };
+
+    public async createDir(
+        repo: string,
+        path: string,
+        commitMessage: string,
+        readmeContent: string
+    ): Promise<void> {
+        const headers = {
+            'Authorization': `Bearer ${this.accessToken}`,
+        };
+        
+    }
 }
