@@ -1,13 +1,11 @@
 import fetch from 'node-fetch';
 import 'dotenv/config';
+import { Repository } from "../../model/repository.model"
 
 const GITHUB_API_URL = 'https://api.github.com';
 
 
-interface RepositoryData {
-    name: string;
-    html_url: string;
-}
+
 
 export class Repo {
     private accessToken: string;
@@ -19,7 +17,7 @@ export class Repo {
         this.accessToken = accessToken;
     }
 
-    public async createRepo(repoName: string): Promise<RepositoryData> {
+    public async createRepo(repoName: string): Promise<Repository> {
         const headers = {
             'Authorization': `Bearer ${this.accessToken}`,
         };
@@ -31,7 +29,7 @@ export class Repo {
             headers: headers,
             body: body,
         });
-        const repoData = await response.json() as RepositoryData;
+        const repoData = await response.json() as Repository;
         return repoData;
     };
 
