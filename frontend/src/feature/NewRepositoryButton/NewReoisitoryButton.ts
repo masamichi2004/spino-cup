@@ -1,24 +1,22 @@
-'use client';
-import { getFromLocalStorage } from '../HomeNameMain/HomeName';
-
-export async function fetchData(repoName: string, githubId: string) {
-  // localStorageからトークンを取得
+export async function fetchData(repoName: string, githubId: string): Promise<string | undefined> {
   const localtoken = localStorage.getItem('homeNameData');
   if (!localtoken) {
     console.error('No homeNameData found in localStorage');
-    return;
+    return undefined;
   }
 
-  const { accessToken: token } = JSON.parse(localtoken);
+  const token = JSON.parse(localtoken).accessToken;
   if (!token) {
     console.error('No access token found in homeNameData');
-    return;
+    return undefined;
   }
 
-  console.log('Token from localStorage:', token);
-
   const url = `http://localhost:8080/create/repo`;
-  const body = { repoName, githubId };
+
+  const body = {
+    repoName: repoName,
+    githubId: githubId,
+  };
 
   try {
     const response = await fetch(url, {
@@ -30,23 +28,15 @@ export async function fetchData(repoName: string, githubId: string) {
       body: JSON.stringify(body),
     });
 
-    // Responseの確認
     if (!response.ok) {
       const errorText = await response.text();
-      throw new Error(`Error ${response.status}: ${errorText}`);
+      throw new Error(`HTTP error! Status: ${response.status}: ${errorText}`);
     }
 
-    const { redirectUrl } = await response.json();
-    if (redirectUrl) {
-      window.location.href = redirectUrl;  // リダイレクト実行
-    } else {
-      console.error('Redirect URL not found');
-    }
-  } catch (error: any) {
-    if (error.name === 'TypeError') {
-      console.error('Network error or server is unreachable.');
-    } else {
-      console.error('Fetch error:', error.message);
-    }
+    const data = await response.json();
+    return data.redirectUrl;
+  } catch (error) {
+    console.error('Fetch error:', error);
+    return undefined;
   }
 }
