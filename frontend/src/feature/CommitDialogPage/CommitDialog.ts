@@ -14,6 +14,7 @@ export async function postWorkoutData(
     const response = await fetch(url, {
       method: 'POST',
       headers: {
+        // 後々localstorageからaccessTokenを取得するように変更する
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(body),

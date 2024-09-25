@@ -6,6 +6,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/src/componen
 import { Label } from "@/src/components/ui/label";
 import { Camera, X } from 'lucide-react';
 import { VideoSet } from '@/src/feature/VideoSet/VideoSet'
+import { postWorkoutData } from '@/src/feature/CommitDialogPage/CommitDialog'
 
 function CommitDialog() {
   const [wristDecreaseCount, setWristDecreaseCount] = useState(0);
@@ -24,9 +25,14 @@ function CommitDialog() {
     setWeight(value)
   }
 
+  const sets = [
+    {weight: 16, reps: 15},
+    {weight: 16, reps: 15},
+    {weight: 13, reps: 10}
+  ]
+
   const handleCommit = () => {
-    // Here you would typically send the weight data to your backend
-    console.log('Weight committed:', weight)
+    postWorkoutData('hiromuota166', 'arm', 'pushup', sets )
   }
 
   return (
