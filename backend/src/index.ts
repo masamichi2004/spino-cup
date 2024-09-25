@@ -8,7 +8,7 @@ import { Repo } from './github/repository/createRepository';
 const app = new Hono();
 const service = new UserService();
 const auth = new GithubOAuth();
-const ACCESS_TOKEN = process.env.GITHUB_TOKEN || '';
+const ACCESS_TOKEN = process.env.PRIVATE_ACCESS_TOKEN || '';
 const repo = new Repo(ACCESS_TOKEN);
 
 
