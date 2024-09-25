@@ -1,5 +1,6 @@
 'use client'
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { Button } from "@/src/components/ui/button";
 import { Input } from "@/src/components/ui/input";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/src/components/ui/dialog";
@@ -20,6 +21,7 @@ function CommitDialog() {
   const [sets, setSets] = useState<Set[]>([]);
   const { segments } = useSegment();
   const [home, ownerId, repoName, dirName] = segments;
+  const router = useRouter();
 
   const increaseWristDecreaseCount = () => {
     setReps(prev => prev + 1);
@@ -54,6 +56,7 @@ function CommitDialog() {
     } else {
       postWorkoutData(ownerId, repoName, dirName, sets);
       setErrorMessage(null);
+      router.push(`/home/${ownerId}/${repoName}`);
     }
   };
 
