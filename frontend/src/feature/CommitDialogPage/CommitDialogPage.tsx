@@ -7,9 +7,12 @@ import { Label } from "@/src/components/ui/label";
 import { Camera, X } from 'lucide-react';
 import { VideoSet } from '@/src/feature/VideoSet/VideoSet'
 import { postWorkoutData } from '@/src/feature/CommitDialogPage/CommitDialog'
+import useSegment from '@/src/hooks/useSegment';
 
 function CommitDialog() {
+  const { segments} = useSegment();
   const [wristDecreaseCount, setWristDecreaseCount] = useState(0);
+  const [home, ownerId, repoName, dirName] = segments
 
   // 回数を増加させる関数
   const increaseWristDecreaseCount = () => {
@@ -32,7 +35,7 @@ function CommitDialog() {
   ]
 
   const handleCommit = () => {
-    postWorkoutData('hiromuota166', 'arm', 'pushup', sets )
+    postWorkoutData(ownerId, repoName, dirName, sets )
   }
 
   return (
