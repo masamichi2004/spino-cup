@@ -57,5 +57,43 @@ export class Repo {
                 body: body
             }
         );
+    };
+
+    public async createCommit(
+        userId: string,
+        repo: string,
+        filePath: string,
+        jsonData: object,
+        message: string
+    ) {
+        const fileContent = JSON.stringify(jsonData, null, 2);
+        const encodedContent = Buffer.from(fileContent).toString('base64');
+        const url = `https://api.github.com/repos/${userId}/${repo}/contents/${filePath}`;
+
+        const body = {
+            message,
+            content: encodedContent,
+        };
+
+        try {
+            const response = await fetch(url, {
+                method: 'PUT',
+                headers: {
+                    Authorization: `token ${this.accessToken}`,
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(body),
+            });
+
+            if (response.ok) {
+                console.log(`File ${filePath} added successfully to the repository.`);
+            } else {
+                const errorData = await response.json();
+                console.error('Failed to add file:', errorData);
+            }
+        } catch (error) {
+            console.error('Error adding file:', error);
+        }
     }
+
 }
