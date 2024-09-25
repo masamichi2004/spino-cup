@@ -4,6 +4,11 @@ import { Repository } from "../model/repository.model";
 
 const GITHUB_API_URL = "https://api.github.com";
 
+type DirectoryItem = {
+  name: string;
+  type: string;
+};
+
 export class GithubRepo {
   private accessToken: string;
 
@@ -30,23 +35,37 @@ export class GithubRepo {
     return repoData;
   }
 
-  // public async getDirs(
-  //   userId: string,
-  //   repoName: string,
-  //   filePath?: string
-  // ): Promise<string[]> {
-  //   const url = `${GITHUB_API_URL}/repos/${userId}/${repoName}/contents/${filePath}`;
-  //   console.log(url);
-  //   const response = await fetch(url, {
-  //     method: "GET",
-  //     headers: {
-  //       Authorization: `Bearer ${this.accessToken}`,
-  //     },
-  //   });
-  //   console.log(response);
+  public async getDirs(
+    userId: string,
+    repoName: string,
+    filePath?: string
+  ): Promise<DirectoryItem[]> {
+    let url: string;
 
-  //   return [];
-  // }
+    if (!filePath) {
+      url = `${GITHUB_API_URL}/repos/${userId}/${repoName}/contents`;
+    } else {
+      url = `${GITHUB_API_URL}/repos/${userId}/${repoName}/contents/${filePath}`;
+    }
+
+    const response = await fetch(url, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${this.accessToken}`,
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error("ファイルパスが不適切です");
+    }
+
+    const data = (await response.json()) as DirectoryItem[];
+    const directories = data.map((item: DirectoryItem) => {
+      return { name: item.name, type: item.type } as DirectoryItem;
+    });
+
+    return directories;
+  }
 
   public async commit(
     userId: string,
