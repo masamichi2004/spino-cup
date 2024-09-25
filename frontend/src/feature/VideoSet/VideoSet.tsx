@@ -35,7 +35,7 @@ const VideoSet: React.FC<{ increaseCount: () => void }> = ({ increaseCount }) =>
       const canvas = canvasRef.current;
       const ctx = canvas?.getContext('2d');
 
-      if (video && ctx) {
+      if (video && video.videoWidth > 0 && video.videoHeight > 0 && ctx) {
         const currentPose = await net.estimateSinglePose(video, {
           flipHorizontal: false,
         });
