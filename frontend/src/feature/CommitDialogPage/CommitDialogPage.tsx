@@ -5,8 +5,16 @@ import { Input } from "@/src/components/ui/input";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/src/components/ui/dialog";
 import { Label } from "@/src/components/ui/label";
 import { Camera, X } from 'lucide-react';
+import { VideoSet } from '@/src/feature/VideoSet/VideoSet'
 
 function CommitDialog() {
+  const [wristDecreaseCount, setWristDecreaseCount] = useState(0);
+
+  // 回数を増加させる関数
+  const increaseWristDecreaseCount = () => {
+    setWristDecreaseCount(prev => prev + 1);
+  };
+
   const [weight, setWeight] = useState('')
   const [isDialogOpen, setIsDialogOpen] = useState(false)
 
@@ -52,12 +60,12 @@ function CommitDialog() {
           <DialogHeader>
             <DialogTitle>Video Shooting</DialogTitle>
           </DialogHeader>
-          <div className="flex justify-center items-center h-40 bg-gray-100 rounded-md">
-            <p>Video content would go here</p>
+          <div>
+            <h1>Wrist Y Position Decrease Count: {wristDecreaseCount}</h1>
+            <VideoSet increaseCount={increaseWristDecreaseCount} />
           </div>
           <Button onClick={() => setIsDialogOpen(false)} variant="outline" className="mt-4">
-            <X className="mr-2 h-4 w-4" />
-            Exit
+            stop
           </Button>
         </DialogContent>
       </Dialog>
