@@ -2,15 +2,12 @@ import { serve } from "@hono/node-server";
 import { Hono } from "hono";
 import { CorsConfig } from "./middleware/cors";
 import { UserService } from "./service/user.service";
-import { GithubOAuth } from "./github/github.auth";
-import { Repo } from "./github/repository/createRepository";
+import { GithubOAuth } from "./api/auth.github";
+import { Repo } from "./api/repository.github";
 
 const app = new Hono();
 const service = new UserService();
 const auth = new GithubOAuth();
-const ACCESS_TOKEN = process.env.ACCESS_TOKEN || "";
-const USER_ID = process.env.GITHUB_USER_ID || "";
-const repo = new Repo(ACCESS_TOKEN);
 
 app.use("/*", CorsConfig.policy);
 
@@ -51,7 +48,7 @@ app.get("/user/:userId", async (c) => {
   return c.json(user);
 });
 
-app.post("/create/repo/", async (c) => {
+app.post("/create/repo", async (c) => {
   const authHeader = c.req.header("Authorization");
   if (!authHeader) {
     return c.text("Unauthorized", 401);
@@ -65,10 +62,7 @@ app.post("/create/repo/", async (c) => {
 
   const { repoName, githubId } = await c.req.json();
 
-  console.log(repoName, githubId);
-
   const repoData = await repo.createRepo(repoName as string);
-  console.log(repoData);
   if (!repoData) {
     return c.text("Failed to create a repository", 500);
   }
@@ -76,30 +70,22 @@ app.post("/create/repo/", async (c) => {
   return c.redirect(`http://localhost:3000/home/${githubId}/${repoName}`);
 });
 
-app.post("/create/:repoName/:dirName", async (c) => {
-  const repoName = c.req.param("repoName");
-  const dirName = c.req.param("dirName");
-
-  const commitMessage = "あああああ";
-  const readmeContent = "あああああ";
-
-  await repo.createDir(
-    USER_ID,
-    repoName,
-    dirName,
-    commitMessage,
-    readmeContent
-  );
-  return c.json({
-    message: `リポジトリ "${repoName}" のディレクトリ "${dirName}" に README.md が作成されました。`,
-  });
-});
-
 app.post("/commit", async (c) => {
-  const { userId, repoName, filePath, jsonData, commitMessage } =
+  const authHeader = c.req.header("Authorization");
+  if (!authHeader) {
+    return c.text("Unauthorized", 401);
+  }
+
+  const token = authHeader.split(" ")[1];
+  if (!token) {
+    return c.text("Unauthorized", 401);
+  }
+
+  const repo = new Repo(token);
+
+  const { userId, repoName, dirName, jsonData, commitMessage } =
     await c.req.json();
-  await repo.createCommit(userId, repoName, filePath, jsonData, commitMessage);
-  return c.json({
-    message: `File ${filePath} added successfully to the repository.`,
-  });
+  await repo.commit(userId, repoName, dirName, jsonData, commitMessage);
+
+  return c.json({message: 'success', status_code: 200});
 });

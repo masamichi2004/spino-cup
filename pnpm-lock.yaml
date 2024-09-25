@@ -16,6 +16,9 @@ importers:
       '@hono/node-server':
         specifier: ^1.12.2
         version: 1.12.2(hono@4.6.1)
+      '@hono/swagger-ui':
+        specifier: ^0.4.1
+        version: 0.4.1(hono@4.6.1)
       axios:
         specifier: ^1.7.7
         version: 1.7.7
@@ -577,6 +580,11 @@ packages:
     engines: {node: '>=18.14.1'}
     peerDependencies:
       hono: ^4
+
+  '@hono/swagger-ui@0.4.1':
+    resolution: {integrity: sha512-kPaJatHffeYQ3yVkHo878hCqwfapqx54FczJVJ+eRWt8J4biyVVMIdCAJb6MyA8bcnHUoTmUpPc7OJAV1VTg2g==}
+    peerDependencies:
+      hono: '*'
 
   '@humanwhocodes/module-importer@1.0.1':
     resolution: {integrity: sha512-bxveV4V8v5Yb4ncFTT3rPSgZBOpCkjfK0y4oVVVJwIuDVBRMDXrPyXRL988i5ap9m9bnyEEjWfm5WkBmtffLfA==}
@@ -3476,6 +3484,10 @@ snapshots:
       yargs: 17.7.2
 
   '@hono/node-server@1.12.2(hono@4.6.1)':
+    dependencies:
+      hono: 4.6.1
+
+  '@hono/swagger-ui@0.4.1(hono@4.6.1)':
     dependencies:
       hono: 4.6.1
 
