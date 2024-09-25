@@ -90,7 +90,7 @@ app.post("/create/:repoName/:dirName", async (c) => {
 })
 
 app.post('/commit', async (c) => {
-    const { userId, repoName, filePath, jsonData, commitMessage } = await c.req.json();
-    await repo.createCommit(userId, repoName, filePath, jsonData, commitMessage);
-    return c.json({ message: `File ${filePath} added successfully to the repository.` });
+  const { userId, repoName, filePath, jsonData, commitMessage } = await c.req.json();
+  await repo.createCommit(userId, repoName, filePath, jsonData, commitMessage);
+  return c.json({ message: `File ${filePath} added successfully to the repository.` });
 });
