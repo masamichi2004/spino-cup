@@ -19,7 +19,6 @@ function CommitDialog() {
   const [reps, setReps] = useState<number>(0);
   const [sets, setSets] = useState<Set[]>([]);
   const { segments } = useSegment();
-  const [wristDecreaseCount, setWristDecreaseCount] = useState(0);
   const [home, ownerId, repoName, dirName] = segments;
 
   // 回数を増加させる関数
@@ -36,16 +35,17 @@ function CommitDialog() {
         weight: Number(weight),
         reps: Number(reps),
       };
-      setSets(prevSets => [...prevSets, newSet]); // 最新の sets を基に配列を更新
-      setWeight(''); // 入力フィールドをクリア
-      setReps(0);   // 入力フィールドをクリア
+      setSets(prevSets => [...prevSets, newSet]);
+      setWeight('');
+      setReps(0);
       setIsDialogOpen(false);
-      console.log('sets:', [...sets, newSet]); // 状態が更新された後の sets を表示するための確認
+      console.log('sets:', [...sets, newSet]);
     } else if (reps === 0) {
-      setIsDialogOpen(false); // ダイアログを閉じる
+      setIsDialogOpen(false);
       alert('Reps が 0 だったため、記録されませんでした');
     } else {
-      setErrorMessage('Both fields are required');
+      setIsDialogOpen(false);
+      setErrorMessage('エラーでcommitされませんでした');
     }
   };
 
@@ -56,7 +56,7 @@ function CommitDialog() {
   const handleVideoShoot = () => {
     if (weight !== '') {
       setIsDialogOpen(true);
-      setErrorMessage(null); // エラーをリセット
+      setErrorMessage(null);
     } else {
       setErrorMessage('重量を設定してください！');
     }
@@ -106,7 +106,7 @@ function CommitDialog() {
             <DialogTitle>Video Shooting</DialogTitle>
           </DialogHeader>
           <div>
-            <h1>Wrist Y Position Decrease Count: {reps}</h1>
+            <h1>現在の回数: {reps}</h1>
             <VideoSet increaseCount={increaseWristDecreaseCount} />
           </div>
           <Button onClick={handleAdd} variant="outline" className="mt-4">

@@ -7,7 +7,7 @@ const VideoSet: React.FC<{ increaseCount: () => void }> = ({ increaseCount }) =>
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [previousPose, setPreviousPose] = useState<any>(null);
-  const changeThreshold = 10; // 座標の変化を判断する閾値
+  const changeThreshold = 10;
 
   useEffect(() => {
     const setupCamera = async () => {
@@ -45,16 +45,6 @@ const VideoSet: React.FC<{ increaseCount: () => void }> = ({ increaseCount }) =>
           ctx.clearRect(0, 0, canvas.width, canvas.height);
         }
 
-        // キーポイントを描画
-        currentPose.keypoints.forEach((keypoint: any) => {
-          if (keypoint.score > 0.2) { // 有効なキーポイントのみ
-            ctx.beginPath();
-            ctx.arc(keypoint.position.x, keypoint.position.y, 5, 0, 2 * Math.PI); // 半径5の丸い点
-            ctx.fillStyle = 'red'; // 点の色
-            ctx.fill();
-          }
-        });
-
         // 座標の変化をチェック
         if (previousPose) {
           const leftWrist = currentPose.keypoints.find((kp: any) => kp.part === 'leftWrist');
@@ -64,13 +54,10 @@ const VideoSet: React.FC<{ increaseCount: () => void }> = ({ increaseCount }) =>
             const yWristChange = leftWrist.position.y - prevLeftWrist.position.y;
 
             if (yWristChange < -changeThreshold) {
-              console.log(`Left Wrist Y position decreased: ${yWristChange}`);
-              increaseCount(); // 親コンポーネントの関数を呼び出して回数を増やす
+              increaseCount();
             }
           }
         }
-
-        // 現在のポーズを前回のポーズとして保存
         setPreviousPose(currentPose);
       }
     };
