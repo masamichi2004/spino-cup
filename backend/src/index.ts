@@ -9,6 +9,7 @@ const app = new Hono();
 const service = new UserService();
 const auth = new GithubOAuth();
 const ACCESS_TOKEN = process.env.PRIVATE_ACCESS_TOKEN || '';
+const USER_ID = process.env.GITHUB_USER_ID || '';
 const repo = new Repo(ACCESS_TOKEN);
 
 
@@ -50,6 +51,25 @@ app.get('/create/repo/:repoName', async (c) => {
     throw e;
   }
 });
+
+app.get('/create/:repoName/:dirName', async (c) => {
+  const repoName = c.req.param('repoName');
+  const dirName = c.req.param('dirName');
+
+  const commitMessage = 'あああああ';
+  const readmeContent = 'あああああ';
+
+  await repo.createDir(
+    USER_ID,
+    repoName,
+    dirName,
+    commitMessage,
+    readmeContent
+  );
+  return c.json({
+    message: `リポジトリ "${repoName}" のディレクトリ "${dirName}" に README.md が作成されました。`
+  });
+})
 
 const port = 8080;
 console.log(`Server is running on port ${port}`);
