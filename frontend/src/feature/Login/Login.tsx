@@ -7,7 +7,7 @@ import {
   CardTitle,
 } from '@/src/components/ui/card';
 import { ShieldIcon } from 'lucide-react';
-import { useRouter } from 'next/navigation'; // Next.jsのルーターを使います
+import { useRouter } from 'next/navigation';
 
 export default function LoginCard() {
   const router = useRouter();
@@ -41,7 +41,7 @@ export default function LoginCard() {
           className="w-full bg-green text-white"
           size="lg"
           variant="default"
-          onClick={handleLogin} // ボタンが押されたときにリダイレクトす
+          onClick={handleLogin}
         >
           Sign in with GitHub
         </Button>
