@@ -1,0 +1,4 @@
+name = "spino-cup"
+type = "typescript" 
+account_id = "masamichi2004"
+workers_dev = true
