@@ -1,10 +1,10 @@
 'use client';
 
-import { useEffect, useState } from "react";
-import { HomeName } from "./HomeName";
-import useSegment from "@/src/hooks/useSegment";
+import { useEffect, useState } from 'react';
+import { fetchHeaderData } from './fetchHeaderData';
+import useSegment from '@/src/hooks/useSegment';
 
-export const useHomeName = () => {
+export const useHeader = () => {
   const { lastSegment } = useSegment();
   const userId = lastSegment;
   const [data, setData] = useState<any>(null);
@@ -14,9 +14,10 @@ export const useHomeName = () => {
     const fetchData = async () => {
       if (userId) {
         try {
-          const result = await HomeName(userId);          setData(result);
+          const result = await fetchHeaderData(userId);
+          setData(result);
         } catch (error) {
-          console.error("Error fetching data:", error);
+          console.error('Error fetching data:', error);
         } finally {
           setLoading(false);
         }

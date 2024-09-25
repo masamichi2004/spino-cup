@@ -1,4 +1,5 @@
-'use client';
+"use client"
+
 import { Button } from "@/src/components/ui/button";
 import { Input } from "@/src/components/ui/input";
 import { MonitorIcon } from "lucide-react";
