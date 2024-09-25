@@ -20,14 +20,15 @@ function CommitDialog() {
   const [sets, setSets] = useState<Set[]>([]);
   const { segments } = useSegment();
   const [wristDecreaseCount, setWristDecreaseCount] = useState(0);
-  const [home, ownerId, repoName, dirName] = segments
+  const [home, ownerId, repoName, dirName] = segments;
 
   // 回数を増加させる関数
   const increaseWristDecreaseCount = () => {
     setReps(prev => prev + 1);
   };
 
-  const [isDialogOpen, setIsDialogOpen] = useState(false)
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const handleAdd = () => {
     if (weight !== '' && reps !== 0) {
@@ -41,13 +42,22 @@ function CommitDialog() {
       setIsDialogOpen(false);
       console.log('sets:', [...sets, newSet]); // 状態が更新された後の sets を表示するための確認
     } else {
-      console.log('Both fields are required');
+      setErrorMessage('Both fields are required');
     }
-  };  
+  };
 
   const handleCommit = () => {
-    postWorkoutData(ownerId, repoName, dirName, sets)
-  }
+    postWorkoutData(ownerId, repoName, dirName, sets);
+  };
+
+  const handleVideoShoot = () => {
+    if (weight !== '') {
+      setIsDialogOpen(true);
+      setErrorMessage(null);
+    } else {
+      setErrorMessage('重量を設定してください！');
+    }
+  };
 
   return (
     <div className="max-w-md mx-auto mt-10 p-6 bg-white rounded-lg shadow-md">
@@ -64,11 +74,12 @@ function CommitDialog() {
             placeholder="Enter weight"
           />
         </div>
+        {errorMessage && <p className="text-red-500">{errorMessage}</p>}
         <div className="flex space-x-4">
           <Button onClick={handleCommit} className="bg-green text-white">
             Commit
           </Button>
-          <Button onClick={() => setIsDialogOpen(true)} variant="outline">
+          <Button onClick={handleVideoShoot} variant="outline">
             <Camera className="mr-2 h-4 w-4" />
             Video Shoot
           </Button>
@@ -81,7 +92,7 @@ function CommitDialog() {
             <DialogTitle>Video Shooting</DialogTitle>
           </DialogHeader>
           <div>
-            <h1>Wrist Y Position Decrease Count: {reps}</h1>
+            <h1>現在の回数: {reps}</h1>
             <VideoSet increaseCount={increaseWristDecreaseCount} />
           </div>
           <Button onClick={handleAdd} variant="outline" className="mt-4">
@@ -90,7 +101,7 @@ function CommitDialog() {
         </DialogContent>
       </Dialog>
     </div>
-  )
+  );
 }
 
 export { CommitDialog };
