@@ -32,72 +32,76 @@ type FileItem = {
 
 export default function TrainingFile() {
   const pathname = usePathname();
+  const segments = pathname.split('/');
+  const userId = segments[1];
+  const repoName = segments[2];
   const router = useRouter();
   const [dir, setDir] = useState('');
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [files, setFiles] = useState<FileItem[]>([]);
+  const [token, setToken] = useState<string | null>(null);
+  const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
 
   const handleSubmit = () => {
     if (dir) {
       router.push(`${pathname}/${dir}/commit`);
     }
-    setIsDialogOpen(false); // Close the dialog
+    setIsDialogOpen(false);
   };
 
   useEffect(() => {
-    const localtoken = localStorage.getItem('homeNameData');
+    if (typeof window !== 'undefined') {
+      const localToken = localStorage.getItem('homeNameData');
 
-    if (!localtoken) {
-      console.error('No homeNameData found in localStorage');
-      return;
-    }
-
-    const token = JSON.parse(localtoken).accessToken;
-
-    if (!token) {
-      console.error('No access token found in homeNameData');
-      return;
-    }
-
-    const fetchData = async () => {
-      try {
-        const response = await fetch(
-          'http://localhost:8080/dirs/masamichi2004/spino-cup?path=',
-          {
-            method: 'GET',
-            headers: {
-              Authorization: 'Bearer ' + token,
-              'Content-Type': 'application/json',
-            },
-          }
-        );
-
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-
-        const data = await response.json();
-        const filesData = data.dirs as FileItem[];
-
-        setFiles(filesData);
-      } catch (error) {
-        console.error('Error fetching directories:', error);
+      if (localToken) {
+        const parsedToken = JSON.parse(localToken);
+        setToken(parsedToken.accessToken || null);
+        setAvatarUrl(parsedToken.avatarUrl || null);
+      } else {
+        console.error('No homeNameData found in localStorage');
       }
-    };
+    }
+    if (token) {
+      const fetchData = async () => {
+        try {
+          const response = await fetch(
+            `http://localhost:8080/dir/${userId}/${repoName}`,
+            {
+              method: 'GET',
+              headers: {
+                Authorization: 'Bearer ' + token,
+                'Content-Type': 'application/json',
+              },
+            }
+          );
 
-    fetchData();
-  }, []); // Fetch files data on mount
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+
+          const data = await response.json();
+          const filesData = data.dirs as FileItem[];
+
+          setFiles(filesData);
+        } catch (error) {
+          console.error('Error fetching directories:', error);
+        }
+      };
+
+      fetchData();
+    }
+  }, [token, userId, repoName]);
 
   return (
     <div className="max-w-4xl mx-auto p-4 space-y-4">
       <div className="flex items-center space-x-2 text-sm text-gray-500 justify-between">
         <div className="flex items-center gap-x-2">
           <img
-            src="/testiphoneimg.png"
+            src={avatarUrl || '/default-avatar.png'}
             alt="githubのiconの代わり"
             className="w-8 h-8 rounded-full"
           />
-          <span>masamichi2004</span>
+          <span>{userId}</span>
           <span>15 hours ago</span>
         </div>
         <div>
@@ -115,7 +119,7 @@ export default function TrainingFile() {
                   value={dir}
                   onChange={(e) => setDir(e.target.value)}
                   placeholder="Enter directory name"
-                  className="input"
+                  className="input w-full border p-2 rounded-lg"
                 />
               </div>
               <div className="flex justify-end">
