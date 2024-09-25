@@ -8,7 +8,7 @@ import { Repo } from "./github/repository/createRepository";
 const app = new Hono();
 const service = new UserService();
 const auth = new GithubOAuth();
-const ACCESS_TOKEN = process.env.PRIVATE_ACCESS_TOKEN || "";
+const ACCESS_TOKEN = process.env.ACCESS_TOKEN || "";
 const USER_ID = process.env.GITHUB_USER_ID || "";
 const repo = new Repo(ACCESS_TOKEN);
 
@@ -49,7 +49,7 @@ app.get("/user/:userId", async (c) => {
   const userId = c.req.param("userId");
   const user = await service.get(userId);
   return c.json(user);
-})
+});
 
 app.post("/create/repo/", async (c) => {
   const authHeader = c.req.header("Authorization");
@@ -92,5 +92,14 @@ app.post("/create/:repoName/:dirName", async (c) => {
   );
   return c.json({
     message: `リポジトリ "${repoName}" のディレクトリ "${dirName}" に README.md が作成されました。`,
+  });
+});
+
+app.post("/commit", async (c) => {
+  const { userId, repoName, filePath, jsonData, commitMessage } =
+    await c.req.json();
+  await repo.createCommit(userId, repoName, filePath, jsonData, commitMessage);
+  return c.json({
+    message: `File ${filePath} added successfully to the repository.`,
   });
 });
