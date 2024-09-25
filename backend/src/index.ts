@@ -45,6 +45,12 @@ app.get("/auth/github/callback", async (c) => {
   }
 });
 
+app.get("/user/:userId", async (c) => {
+  const userId = c.req.param("userId");
+  const user = await service.get(userId);
+  return c.json(user);
+})
+
 app.post("/create/repo/", async (c) => {
   const authHeader = c.req.header("Authorization");
   if (!authHeader) {

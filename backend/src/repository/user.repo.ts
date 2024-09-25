@@ -81,4 +81,15 @@ export class UserRepo {
       console.error("更新エラー:", error);
     }
   };
+
+  public get = async (userId: string) => {
+    const docRef = doc(this.clc, userId);
+    const docSnap = await getDoc(docRef);
+
+    if (!docSnap.exists()) {
+      throw new Error(`ユーザー ${userId} は存在しません。`);
+    }
+
+    return docSnap.data() as User;
+  };
 }
