@@ -9,33 +9,44 @@ import { VideoSet } from '@/src/feature/VideoSet/VideoSet'
 import { postWorkoutData } from '@/src/feature/CommitDialogPage/CommitDialog'
 import useSegment from '@/src/hooks/useSegment';
 
+interface Set {
+  weight: number;
+  reps: number;
+}
+
 function CommitDialog() {
-  const { segments} = useSegment();
+  const [weight, setWeight] = useState<number | ''>('');
+  const [reps, setReps] = useState<number>(0);
+  const [sets, setSets] = useState<Set[]>([]);
+  const { segments } = useSegment();
   const [wristDecreaseCount, setWristDecreaseCount] = useState(0);
   const [home, ownerId, repoName, dirName] = segments
 
   // 回数を増加させる関数
   const increaseWristDecreaseCount = () => {
-    setWristDecreaseCount(prev => prev + 1);
+    setReps(prev => prev + 1);
   };
 
-  const [weight, setWeight] = useState('')
   const [isDialogOpen, setIsDialogOpen] = useState(false)
 
-  const handleWeightChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    // Only allow numbers
-    const value = e.target.value.replace(/[^0-9]/g, '')
-    setWeight(value)
-  }
-
-  const sets = [
-    {weight: 16, reps: 15},
-    {weight: 16, reps: 15},
-    {weight: 13, reps: 10}
-  ]
+  const handleAdd = () => {
+    if (weight !== '' && reps !== 0) {
+      const newSet: Set = {
+        weight: Number(weight),
+        reps: Number(reps),
+      };
+      setSets(prevSets => [...prevSets, newSet]); // 最新の sets を基に配列を更新
+      setWeight(''); // 入力フィールドをクリア
+      setReps(0);   // 入力フィールドをクリア
+      setIsDialogOpen(false);
+      console.log('sets:', [...sets, newSet]); // 状態が更新された後の sets を表示するための確認
+    } else {
+      console.log('Both fields are required');
+    }
+  };  
 
   const handleCommit = () => {
-    postWorkoutData(ownerId, repoName, dirName, sets )
+    postWorkoutData(ownerId, repoName, dirName, sets)
   }
 
   return (
@@ -49,12 +60,12 @@ function CommitDialog() {
             inputMode="numeric"
             pattern="[0-9]*"
             value={weight}
-            onChange={handleWeightChange}
+            onChange={(e) => setWeight(e.target.value !== '' ? Number(e.target.value) : '')}
             placeholder="Enter weight"
           />
         </div>
         <div className="flex space-x-4">
-          <Button onClick={handleCommit} className="bg-green hover:bg-green text-white">
+          <Button onClick={handleCommit} className="bg-green text-white">
             Commit
           </Button>
           <Button onClick={() => setIsDialogOpen(true)} variant="outline">
@@ -70,10 +81,10 @@ function CommitDialog() {
             <DialogTitle>Video Shooting</DialogTitle>
           </DialogHeader>
           <div>
-            <h1>Wrist Y Position Decrease Count: {wristDecreaseCount}</h1>
+            <h1>Wrist Y Position Decrease Count: {reps}</h1>
             <VideoSet increaseCount={increaseWristDecreaseCount} />
           </div>
-          <Button onClick={() => setIsDialogOpen(false)} variant="outline" className="mt-4">
+          <Button onClick={handleAdd} variant="outline" className="mt-4">
             stop
           </Button>
         </DialogContent>
