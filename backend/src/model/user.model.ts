@@ -5,5 +5,6 @@ export interface User {
   name: string;
   followers: number;
   following: number;
-  createdAt: Date;
+  createdAt?: Date;
+  updatedAt?: Date;
 }

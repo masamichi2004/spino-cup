@@ -1,4 +1,4 @@
-import { initializeApp, getApps, FirebaseApp } from "firebase/app";
+import { initializeApp, FirebaseApp } from "firebase/app";
 import { Firestore, getFirestore } from "firebase/firestore";
 import { config } from "dotenv";
 
