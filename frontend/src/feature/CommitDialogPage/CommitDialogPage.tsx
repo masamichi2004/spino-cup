@@ -21,7 +21,6 @@ function CommitDialog() {
   const { segments } = useSegment();
   const [home, ownerId, repoName, dirName] = segments;
 
-  // 回数を増加させる関数
   const increaseWristDecreaseCount = () => {
     setReps(prev => prev + 1);
   };
@@ -50,7 +49,14 @@ function CommitDialog() {
   };
 
   const handleCommit = () => {
-    postWorkoutData(ownerId, repoName, dirName, sets);
+    // エラーチェック: 重量が設定されていない、またはセットがない場合
+    if (weight === '' || sets.length === 0) {
+      setErrorMessage('重量とセット記録を追加してください。');
+    } else {
+      // データをサーバに送信
+      postWorkoutData(ownerId, repoName, dirName, sets);
+      setErrorMessage(null); // エラーをリセット
+    }
   };
 
   const handleVideoShoot = () => {
