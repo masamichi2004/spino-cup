@@ -1,8 +1,17 @@
+'use client';
 import { Card, CardContent, CardHeader, CardTitle } from "@/src/components/ui/card"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { FolderIcon, FileIcon, EditIcon } from "lucide-react"
+import { Button } from "@/src/components/ui/button"
+import { useRouter, usePathname } from "next/navigation"
 
 export default function TrainingFile() {
+  const pathname = usePathname();
+  const router = useRouter();
+  const handleClick = () => {
+    router.push(`${pathname}/commit`);
+  }
+
   const files = [
     { name: "..", type: "folder", lastCommit: "" },
     { name: "src", type: "folder", lastCommit: "15 hours ago" },
@@ -15,10 +24,15 @@ export default function TrainingFile() {
 
   return (
     <div className="max-w-4xl mx-auto p-4 space-y-4">
-      <div className="flex items-center space-x-2 text-sm text-gray-500">
-        <img src="/testiphoneimg.png" alt="githubのiconの代わり" className='w-8 h-8 rounded-full' />
-        <span>masamichi2004</span>
-        <span>15 hours ago</span>
+      <div className="flex items-center space-x-2 text-sm text-gray-500 justify-between">
+        <div className="flex items-center gap-x-2">
+          <img src="/testiphoneimg.png" alt="githubのiconの代わり" className='w-8 h-8 rounded-full' />
+          <span>masamichi2004</span>
+          <span>15 hours ago</span>
+        </div>
+        <div>
+          <Button onClick={handleClick}>Add Commit</Button>
+        </div>
       </div>
       <Card>
         <CardHeader className="pb-2">
