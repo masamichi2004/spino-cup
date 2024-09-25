@@ -45,7 +45,7 @@ app.get("/auth/github/callback", async (c) => {
   }
 });
 
-app.post("/create/repo/", async (c) => {
+app.post("/create/repo", async (c) => {
   const authHeader = c.req.header("Authorization");
   if (!authHeader) {
     return c.text("Unauthorized", 401);
@@ -67,7 +67,7 @@ app.post("/create/repo/", async (c) => {
     return c.text("Failed to create a repository", 500);
   }
 
-  return c.redirect(`http://localhost:3000/home/${githubId}/${repoName}`);
+  return c.text(`http://localhost:3000/home/${githubId}/${repoName}`);
 });
 
 app.post("/create/:repoName/:dirName", async (c) => {
