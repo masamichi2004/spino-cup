@@ -10,8 +10,4 @@ export class RepositoryRepo {
   public bulkGet = async () => { 
     return this.firestore.bulkGet();
   }
-
-  // public create = async (repository: Repository) => {
-  //   return this.firestore.create(repository);
-  // };
 }
