@@ -33,8 +33,8 @@ type FileItem = {
 export default function TrainingFile() {
   const pathname = usePathname();
   const segments = pathname.split('/');
-  const userId = segments[1];
-  const repoName = segments[2];
+  const userId = segments[2];
+  const repoName = segments[3];
   const router = useRouter();
   const [dir, setDir] = useState('');
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -65,7 +65,7 @@ export default function TrainingFile() {
       const fetchData = async () => {
         try {
           const response = await fetch(
-            `http://localhost:8080/dir/${userId}/${repoName}`,
+            `http://localhost:8080/dirs/${userId}/${repoName}`,
             {
               method: 'GET',
               headers: {
