@@ -49,13 +49,11 @@ function CommitDialog() {
   };
 
   const handleCommit = () => {
-    // エラーチェック: 重量が設定されていない、またはセットがない場合
-    if (weight === '' || sets.length === 0) {
+    if (sets.length === 0) {
       setErrorMessage('重量とセット記録を追加してください。');
     } else {
-      // データをサーバに送信
       postWorkoutData(ownerId, repoName, dirName, sets);
-      setErrorMessage(null); // エラーをリセット
+      setErrorMessage(null);
     }
   };
 
