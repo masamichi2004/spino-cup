@@ -19,10 +19,10 @@ export default function Component() {
   ]
 
   return (
-    <div className="relative">
+    <div className="">
       <button
         onClick={toggleMenu}
-        className="fixed top-4 left-4 p-2 z-50 bg-header text-menu rounded-md border-bordercolor border-1 border"
+        className="top-4 left-4 p-2 bg-header text-menu rounded-md border-bordercolor border-1 border"
         aria-label="Toggle menu"
       >
         <Menu size={16} />
