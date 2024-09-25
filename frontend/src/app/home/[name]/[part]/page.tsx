@@ -1,7 +1,7 @@
 'use client';
 import React from 'react';
 import RepositoryInfo from '@/src/feature/RepositoryInfo/RepositoryInfo';
-import RepositoryList from '@/src/feature/RepositoryList/RepositoryList';
+import TrainingFile from '@/src/feature/TrainingFile/TrainingFile';
 
 const page = () => {
   return (
@@ -11,7 +11,7 @@ const page = () => {
           <div>
             <RepositoryInfo />
             <hr className="border border-gray-300 px-0" />
-            <RepositoryList />
+            <TrainingFile />
           </div>
         </h1>
       </div>

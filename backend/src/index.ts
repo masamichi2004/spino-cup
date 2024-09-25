@@ -33,26 +33,28 @@ app.get("/users", async (c) => {
   return c.json(users);
 });
 
-// app.get("/dirs/:userId/:repoName/:filePath", async (c) => {
-//   const repoName = c.req.param("repoName");
-//   const filePath = c.req.param("filePath");
-//   const userId = c.req.param("userId");
+app.get("/dirs/:userId/:repoName", async (c) => {
+  const repoName = c.req.param("repoName");
+  const filePath = c.req.query("path");
+  const userId = c.req.param("userId");
 
-//   const authHeader = c.req.header("Authorization");
-//   console.log(authHeader);
-//   if (!authHeader) {
-//     return c.text("Unauthorized", 401);
-//   }
+  const authHeader = c.req.header("Authorization");
+  if (!authHeader) {
+    return c.text("Unauthorized", 401);
+  }
 
-//   const token = authHeader.split(" ")[1];
-//   if (!token) {
-//     return c.text("Unauthorized", 401);
-//   }
-//   const repo = new GithubRepo(token);
+  const token = authHeader.split(" ")[1];
+  if (!token) {
+    return c.text("Unauthorized", 401);
+  }
+  const repo = new GithubRepo(token);
 
-//   const dirs = await repo.getDirs(userId, repoName, filePath);
-//   return c.json(dirs);
-// });
+  const dirs = await repo.getDirs(userId, repoName, filePath);
+  if (!dirs.length) {
+    throw new Error("Failed to fetch directories");
+  }
+  return c.json({ dirs });
+});
 
 app.get("/", (c) => {
   return c.json({ message: "Hello, Hono!" });

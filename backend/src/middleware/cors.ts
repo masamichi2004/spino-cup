@@ -2,7 +2,12 @@ import { cors } from "hono/cors";
 
 export class CorsConfig {
   static readonly policy = cors({
-    origin: ["http://localhost:3000", "http://spino-cup.vercel.app"],
+    origin: [
+      "http://localhost:3000",
+      "http://spino-cup.vercel.app",
+      "https://github.com",
+      "https://api.github.com",
+    ],
     allowHeaders: [
       "X-Custom-Header",
       "Upgrade-Insecure-Requests",
