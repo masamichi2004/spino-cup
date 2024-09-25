@@ -23,10 +23,10 @@ type FileItem = {
   type: string;
 };
 
-export default async function TrainingFile() {
+export default function TrainingFile() {
   const pathname = usePathname();
-
   const router = useRouter();
+
   const handleClick = () => {
     router.push(`${pathname}/commit`);
   };
@@ -60,6 +60,10 @@ export default async function TrainingFile() {
             },
           }
         );
+
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
 
         const data = await response.json();
         const filesData = data.dirs as FileItem[];
@@ -110,7 +114,6 @@ export default async function TrainingFile() {
                     ) : (
                       <FileIcon className="inline mr-2 h-4 w-4 text-gray-500" />
                     )}
-                    {/* 一旦ね */}
                     <a href="/home/name/part/training">{file.name}</a>
                   </TableCell>
                   <TableCell className="text-right"></TableCell>
