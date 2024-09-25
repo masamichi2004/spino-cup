@@ -33,14 +33,13 @@ type FileItem = {
 export default function TrainingFile() {
   const pathname = usePathname();
   const router = useRouter();
-  const [dir, setDir] = useState(''); // New state to store directory name
-  const [isDialogOpen, setIsDialogOpen] = useState(false); // Control dialog visibility
+  const [dir, setDir] = useState('');
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [files, setFiles] = useState<FileItem[]>([]);
 
-  // Handle submit and push to new route
   const handleSubmit = () => {
     if (dir) {
-      router.push(`${pathname}/${dir}/commit`); // Push to '現在のURL/[dir]/commit'
+      router.push(`${pathname}/${dir}/commit`);
     }
     setIsDialogOpen(false); // Close the dialog
   };
