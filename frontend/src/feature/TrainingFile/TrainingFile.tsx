@@ -33,7 +33,6 @@ type FileItem = {
 
 export default function TrainingFile() {
   const router = useRouter();
-  const router = useRouter();
   const pathname = usePathname();
   const segments = pathname.split('/');
   const userId = segments[2];
