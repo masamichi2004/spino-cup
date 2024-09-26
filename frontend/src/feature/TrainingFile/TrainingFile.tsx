@@ -31,23 +31,27 @@ type FileItem = {
 };
 
 export default function TrainingFile() {
+  const router = useRouter();
   const pathname = usePathname();
   const segments = pathname.split('/');
   const userId = segments[2];
   const repoName = segments[3];
-  const router = useRouter();
   const [dir, setDir] = useState('');
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [files, setFiles] = useState<FileItem[]>([]);
   const [token, setToken] = useState<string | null>(null);
   const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
-
+  
   const handleSubmit = () => {
     if (dir) {
       router.push(`${pathname}/${dir}/commit`);
     }
     setIsDialogOpen(false);
   };
+
+  const handleClick = (filename : string) => {
+    router.push(`/home/${userId}/${repoName}/${filename}`);
+  } 
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -150,7 +154,9 @@ export default function TrainingFile() {
                     ) : (
                       <FileIcon className="inline mr-2 h-4 w-4 text-gray-500" />
                     )}
-                    <a href="/home/name/part/training">{file.name}</a>
+                    <button onClick={() => handleClick(file.name)}>
+                      {file.name}
+                    </button>
                   </TableCell>
                   <TableCell className="text-right"></TableCell>
                 </TableRow>
