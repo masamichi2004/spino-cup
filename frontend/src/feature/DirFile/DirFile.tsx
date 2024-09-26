@@ -15,6 +15,7 @@ import {
 } from '@/components/ui/table';
 import React, { useEffect, useState } from 'react';
 import { usePathname } from 'next/navigation';
+import { FileIcon } from 'lucide-react';
 
 const DirFile = () => {
   const [token, setToken] = useState<string | null>(null); // Store token in state
@@ -71,7 +72,7 @@ const DirFile = () => {
     <>
       <Card>
         <CardHeader className="pb-2">
-          <CardTitle>Repository Files</CardTitle>
+          <CardTitle>Directory Files</CardTitle>
         </CardHeader>
         <CardContent>
           <Table>
@@ -84,10 +85,12 @@ const DirFile = () => {
             <TableBody>
               {files.map((file) => (
                 <TableRow key={file.name}>
-                  <TableCell className="font-medium">
-                    {file.type === 'dir' ? '📁' : '📄'} {file.name}
+                  <TableCell className="font-medium flex">
+                    <FileIcon className='w-5 h-5'/>
+                    <div className='mx-2'>
+                      {file.name}
+                    </div>
                   </TableCell>
-                  <TableCell className="text-right">{file.lastCommitDate || 'N/A'}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
