@@ -1,4 +1,4 @@
-import { LoadingComp } from '@/src/feature/Loading/loading';
+import { LoadingComp } from '@/src/feature/Loading/Loading';
 
 const Loading = () => {
   return (
