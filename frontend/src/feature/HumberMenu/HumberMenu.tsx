@@ -1,14 +1,17 @@
-"use client"
+"use client";
 
-import { useEffect, useState } from 'react'
-import { motion } from 'framer-motion'
-import { Menu, X, Home, Book, Users, Star, GitPullRequest, GitMerge } from 'lucide-react'
+import { useEffect, useState } from 'react';
+import { motion } from 'framer-motion';
+import { Menu, X, Home, Book, Users, Star, GitPullRequest, GitMerge } from 'lucide-react';
 import { getRepo } from "@/src/feature/HomeNameMain/HomeName";
 import { usePathname } from 'next/navigation';
+import { Repo } from '@/src/types/Repo';
+import { User } from '@/src/types/User';
 
 export default function Component() {
   const [isOpen, setIsOpen] = useState(false);
-  const [repos, setRepos] = useState<any[]>([]);
+  const [repos, setRepos] = useState<Repo[]>([]);
+  const [user, setUser] = useState<User | null>(null);
 
   const toggleMenu = () => setIsOpen(!isOpen);
 
@@ -22,7 +25,6 @@ export default function Component() {
   ];
 
   const name = usePathname().split('/')[2];
-
   const fetchRepos = async () => {
     const userId = name;
     const fetchedRepos = await getRepo(userId);
@@ -31,8 +33,17 @@ export default function Component() {
     }
   };
 
+  const fetchUserData = async () => {
+    const localData = localStorage.getItem('homeNameData');
+    if (localData) {
+      const userData: User = JSON.parse(localData);
+      setUser(userData);
+    }
+  };
+
   useEffect(() => {
     fetchRepos();
+    fetchUserData();
   }, []);
 
   return (
@@ -56,12 +67,11 @@ export default function Component() {
           className="absolute top-4 right-4 p-2 text-white"
           aria-label="Close menu"
         >
-          <X size={16} color='black'/>
+          <X size={16} color="black" />
         </button>
 
         <nav className="pt-16 px-4">
           <ul className="">
-            {/* Map over hardcoded menuItems */}
             {menuItems.map((item, index) => (
               <li key={index}>
                 <a
@@ -69,27 +79,32 @@ export default function Component() {
                   className="flex items-center space-x-2 p-2 rounded-md hover:bg-gray-800 transition-colors duration-200"
                 >
                   <item.icon size={16} />
-                  <span className='text-sm'>{item.text}</span>
+                  <span className="text-sm">{item.text}</span>
                 </a>
               </li>
             ))}
           </ul>
-          <hr className='w-full h-1'/>
+          <hr className="w-full h-1" />
           <ul className="">
-            {/* Map over repos and display repo names */}
             {repos.map((repo, index) => (
               <li key={index}>
                 <a
                   href="#"
                   className="flex items-center space-x-2 p-2 rounded-md hover:bg-gray-800 transition-colors duration-200"
                 >
-                  <span className='text-sm'>{repo.name}</span>
-                  <span className='text-sm'>{repo.userId}</span>
+                  {user && (
+                    <img
+                      src={user.avatarUrl}
+                      alt="User Avatar"
+                      className="w-4 h-4 rounded-full"
+                    />
+                  )}
+                  <span className="text-sm">{repo.name}</span>
                 </a>
               </li>
             ))}
           </ul>
-          <hr className='w-full h-1'/>
+          <hr className="w-full h-1" />
           <ul className="">
             <li>
               <a
@@ -97,7 +112,7 @@ export default function Component() {
                 className="flex items-center space-x-2 p-2 rounded-md hover:bg-gray-800 transition-colors duration-200"
               >
                 <Home size={16} />
-                <span className='text-sm'>Settings</span>
+                <span className="text-sm">Settings</span>
               </a>
             </li>
           </ul>
@@ -112,5 +127,5 @@ export default function Component() {
         />
       )}
     </div>
-  )
+  );
 }
