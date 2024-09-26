@@ -22,6 +22,8 @@ module.exports = {
   	extend: {
   		colors: {
         green: '#1E883E',
+        lightgreen: '#90D090',
+        palegreen: '#98FB98',
         textcolor: '#1F2329',
         bordercolor: "#D0D9E0",
         menu: '#59636E',
