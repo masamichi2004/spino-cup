@@ -24,6 +24,7 @@ import {
 import { FolderIcon, FileIcon, EditIcon } from 'lucide-react';
 import { useRouter, usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import Loading from '@/src/app/loading';
 
 type FileItem = {
   name: string;
@@ -43,6 +44,7 @@ export default function TrainingFile() {
   const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
 
   const handleSubmit = () => {
+    <Loading />;
     if (dir) {
       router.push(`${pathname}/${dir}/commit`);
     }
