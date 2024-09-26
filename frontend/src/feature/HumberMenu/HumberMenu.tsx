@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Menu, X, Home, Book, Users, Star, GitPullRequest, GitMerge } from 'lucide-react';
 import { getRepo } from "@/src/feature/HomeNameMain/HomeName";
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { Repo } from '@/src/types/Repo';
 import { User } from '@/src/types/User';
 
@@ -14,6 +14,7 @@ export default function Component() {
   const [user, setUser] = useState<User | null>(null);
 
   const toggleMenu = () => setIsOpen(!isOpen);
+  const router = useRouter();
 
   const menuItems = [
     { icon: Home, text: 'Dashboard' },
@@ -40,6 +41,10 @@ export default function Component() {
       setUser(userData);
     }
   };
+
+  const handleClick = (name: string, repoName: string) => {
+    router.push(`/home/${name}/${repoName}`);
+  }
 
   useEffect(() => {
     fetchRepos();
@@ -88,19 +93,19 @@ export default function Component() {
           <ul className="">
             {repos.map((repo, index) => (
               <li key={index}>
-                <a
-                  href="#"
-                  className="flex items-center space-x-2 p-2 rounded-md hover:bg-gray-800 transition-colors duration-200"
-                >
-                  {user && (
+                {user && (
+                  <button
+                    onClick={() => handleClick(repo.userId, repo.name)}
+                    className="flex w-full items-center space-x-2 p-2 rounded-md hover:bg-gray-800 transition-colors duration-200"
+                  >
                     <img
                       src={user.avatarUrl}
                       alt="User Avatar"
                       className="w-4 h-4 rounded-full"
                     />
-                  )}
-                  <span className="text-sm">{repo.name}</span>
-                </a>
+                    <span className="text-sm">{repo.name}</span>
+                  </button>
+                )}
               </li>
             ))}
           </ul>
