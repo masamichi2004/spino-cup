@@ -11,20 +11,20 @@ const repoService = new RepositoryService();
 
 const auth = new GithubOAuth();
 
-app.use("https://default-1018624218403.asia-northeast1.run.app/*", CorsConfig.policy);
+app.use("/*", CorsConfig.policy);
 
-app.get("https://default-1018624218403.asia-northeast1.run.app/repos/:userId", async (c) => {
+app.get("/repos/:userId", async (c) => {
   const userId = c.req.param("userId");
   const repos = await repoService.bulkGet(userId);
   return c.json(repos);
 });
 
-app.get("https://default-1018624218403.asia-northeast1.run.app/users", async (c) => {
+app.get("/users", async (c) => {
   const users = await userService.bulkGet();
   return c.json(users);
 });
 
-app.get("https://default-1018624218403.asia-northeast1.run.app/dirs/:userId/:repoName", async (c) => {
+app.get("/dirs/:userId/:repoName", async (c) => {
   const repoName = c.req.param("repoName");
   const filePath = c.req.query("path");
   const userId = c.req.param("userId");
@@ -47,31 +47,31 @@ app.get("https://default-1018624218403.asia-northeast1.run.app/dirs/:userId/:rep
   return c.json({ dirs });
 });
 
-app.get("https://default-1018624218403.asia-northeast1.run.app/", (c) => {
+app.get("/", (c) => {
   return c.json({ message: "Hello, Hono!" });
 });
 
-app.get("https://default-1018624218403.asia-northeast1.run.app/auth/github", (c) => {
+app.get("/auth/github", (c) => {
   return c.redirect(auth.getGithubOAuthURL());
 });
 
-app.get("https://default-1018624218403.asia-northeast1.run.app/auth/github/callback", async (c) => {
+app.get("/auth/github/callback", async (c) => {
   try {
     const user = await auth.validate(c);
     await userService.create(user);
-    return c.redirect(`http://localhost:3000/home/${user.userId}`);
+    return c.redirect(`${process.env.FRONTEND_URL}/home/${user.userId}`);
   } catch (e) {
     throw e;
   }
 });
 
-app.get("https://default-1018624218403.asia-northeast1.run.app/user/:userId", async (c) => {
+app.get("/user/:userId", async (c) => {
   const userId = c.req.param("userId");
   const user = await userService.get(userId);
   return c.json(user);
 });
 
-app.post("https://default-1018624218403.asia-northeast1.run.app/create/repo", async (c) => {
+app.post("/create/repo", async (c) => {
   try {
     const authHeader = c.req.header("Authorization");
     if (!authHeader) {
@@ -99,7 +99,7 @@ app.post("https://default-1018624218403.asia-northeast1.run.app/create/repo", as
     }
 
     return c.json({
-      redirectUrl: `http://localhost:3000/home/${githubId}/${repoName}`,
+      redirectUrl: `${process.env.FRONTEND_URL}/home/${githubId}/${repoName}`,
     });
   } catch (error) {
     console.error("Error in /create/repo:", error);
@@ -107,7 +107,7 @@ app.post("https://default-1018624218403.asia-northeast1.run.app/create/repo", as
   }
 });
 
-app.post("https://default-1018624218403.asia-northeast1.run.app/commit", async (c) => {
+app.post("/commit", async (c) => {
   const authHeader = c.req.header("Authorization");
   if (!authHeader) {
     return c.text("Unauthorized", 401);
