@@ -5,3 +5,8 @@ export interface Commit {
   jsonData: object;
   commitMessage: string;
 }
+
+export interface Count {
+  userId: string;
+  dateKey: string;
+}

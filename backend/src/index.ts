@@ -5,6 +5,7 @@ import { UserService } from "./service/user.service";
 import { RepositoryService } from "./service/repository.service";
 import { GithubOAuth } from "./api/auth.github";
 import { GithubRepo } from "./api/repository.github";
+import { renew } from "./service/count.service";
 
 const app = new Hono();
 const userService = new UserService();
@@ -107,7 +108,9 @@ app.post("/create/repo", async (c) => {
       return c.text("Failed to create a repository", 500);
     }
 
-    return c.json({ redirectUrl: `http://localhost:3000/home/${githubId}/${repoName}` });
+    return c.json({
+      redirectUrl: `http://localhost:3000/home/${githubId}/${repoName}`,
+    });
   } catch (error) {
     console.error("Error in /create/repo:", error);
     return c.text("Internal Server Error", 500);
@@ -132,4 +135,27 @@ app.post("/commit", async (c) => {
   await repo.commit(userId, repoName, dirName, jsonData, commitMessage);
 
   return c.json({ message: "success", status_code: 200 });
+});
+
+app.post("/count", async (c) => {
+  try {
+    const body = await c.req.json();
+    const { userId, dateKey } = body;
+
+    await renew(userId, dateKey);
+    return c.json(
+      {
+        message: `Commit count updated or created successfully for user ${userId} and dateKey ${dateKey}.`,
+      },
+      200
+    );
+  } catch (error) {
+    if (error instanceof Error) {
+      console.error("Error during increment or create commit:", error.message);
+      return c.json({ error: error.message }, 500);
+    } else {
+      console.error("Unexpected error:", error);
+      return c.json({ error: "An unexpected error occurred." }, 500);
+    }
+  }
 });
