@@ -141,11 +141,10 @@ app.post("/count", async (c) => {
   try {
     const body = await c.req.json();
     const { userId, dateKey } = body;
-
-    await renew(userId, dateKey);
+    const updatedCommitField = await renew(userId, dateKey);
     return c.json(
       {
-        message: `Commit count updated or created successfully for user ${userId} and dateKey ${dateKey}.`,
+        commit: updatedCommitField,
       },
       200
     );

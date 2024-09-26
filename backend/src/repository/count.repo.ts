@@ -38,22 +38,32 @@ export class CommitCount {
     }
   };
 
-  public count = async (userId: string, dateKey: string): Promise<void> => {
+  public count = async (
+    userId: string,
+    dateKey: string
+  ): Promise<{ [key: string]: number }> => {
     const docRef = doc(this.clc, userId);
 
     try {
-      await runTransaction(this.db, async (transaction) => {
-        const docSnap = await transaction.get(docRef);
-        const data = docSnap.data();
-        const commitField = data?.commit || {};
-        const currentCommitCount = commitField[dateKey];
-        const newCommitCount = currentCommitCount + 1;
-        transaction.update(docRef, {
-          [`commit.${dateKey}`]: newCommitCount,
-        });
-      });
+      const updatedCommitField = await runTransaction(
+        this.db,
+        async (transaction) => {
+          const docSnap = await transaction.get(docRef);
+          const data = docSnap.data();
+          const commitField = data?.commit || {};
+          const currentCommitCount = commitField[dateKey];
+          const newCommitCount = currentCommitCount + 1;
+
+          commitField[dateKey] = newCommitCount;
+          transaction.update(docRef, { commit: commitField });
+
+          return commitField;
+        }
+      );
+
+      return updatedCommitField; // トランザクションの結果として更新後の commit フィールド全体を返す
     } catch (error) {
-      console.error("commit 数の更新中にエラーが発生しました: ", error);
+      console.error("commit フィールドの更新中にエラーが発生しました: ", error);
       throw error;
     }
   };
@@ -61,18 +71,30 @@ export class CommitCount {
   public create = async (
     userId: string,
     dateKey: string
-  ): Promise<void> => {
+  ): Promise<{ [key: string]: number }> => {
     const docRef = doc(this.clc, userId);
-  
-    try {
-      await runTransaction(this.db, async (transaction) => {
-        const docSnap = await transaction.get(docRef);
-        const data = docSnap.data();
-        const commitField = data?.commit || {};
 
-        commitField[dateKey] = 1;
-        transaction.update(docRef, { commit: commitField });
-      });
+    try {
+      const updatedCommitField = await runTransaction(
+        this.db,
+        async (transaction) => {
+          const docSnap = await transaction.get(docRef);
+
+          if (!docSnap.exists()) {
+            throw new Error(
+              `ユーザー ${userId} のドキュメントが存在しません。`
+            );
+          }
+
+          const data = docSnap.data();
+          const commitField = data?.commit || {};
+          commitField[dateKey] = 1;
+          transaction.update(docRef, { commit: commitField });
+
+          return commitField; 
+        }
+      );
+      return updatedCommitField;
     } catch (error) {
       console.error("初期 commit 数の設定中にエラーが発生しました: ", error);
       throw error;

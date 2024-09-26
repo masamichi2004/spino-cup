@@ -6,7 +6,3 @@ export interface Commit {
   commitMessage: string;
 }
 
-export interface Count {
-  userId: string;
-  dateKey: string;
-}
