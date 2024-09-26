@@ -41,7 +41,7 @@ export default function TrainingFile() {
   const [files, setFiles] = useState<FileItem[]>([]);
   const [token, setToken] = useState<string | null>(null);
   const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
-  
+
   const handleSubmit = () => {
     if (dir) {
       router.push(`${pathname}/${dir}/commit`);
@@ -49,9 +49,9 @@ export default function TrainingFile() {
     setIsDialogOpen(false);
   };
 
-  const handleClick = (filename : string) => {
+  const handleClick = (filename: string) => {
     router.push(`/home/${userId}/${repoName}/${filename}`);
-  } 
+  }
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -101,7 +101,7 @@ export default function TrainingFile() {
       <div className="flex items-center space-x-2 text-sm text-gray-500 justify-between">
         <div className="flex items-center gap-x-2">
           <img
-            src={avatarUrl || '/default-avatar.png'}
+            src={avatarUrl || '/macho-72.png'}
             alt="githubのiconの代わり"
             className="w-8 h-8 rounded-full"
           />
