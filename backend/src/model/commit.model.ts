@@ -5,3 +5,4 @@ export interface Commit {
   jsonData: object;
   commitMessage: string;
 }
+
