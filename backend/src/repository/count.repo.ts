@@ -91,12 +91,29 @@ export class CommitCount {
           commitField[dateKey] = 1;
           transaction.update(docRef, { commit: commitField });
 
-          return commitField; 
+          return commitField;
         }
       );
       return updatedCommitField;
     } catch (error) {
       console.error("初期 commit 数の設定中にエラーが発生しました: ", error);
+      throw error;
+    }
+  };
+
+  public getCommitField = async (
+    userId: string
+  ): Promise<{ [key: string]: number } | null> => {
+    const docRef = doc(this.clc, userId);
+
+    try {
+      const docSnap = await getDoc(docRef);
+      const data = docSnap.data();
+      const commitField = data?.commit || null;
+
+      return commitField;
+    } catch (error) {
+      console.error("Error fetching commit field:", error);
       throw error;
     }
   };

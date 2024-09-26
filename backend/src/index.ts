@@ -5,11 +5,12 @@ import { UserService } from "./service/user.service";
 import { RepositoryService } from "./service/repository.service";
 import { GithubOAuth } from "./api/auth.github";
 import { GithubRepo } from "./api/repository.github";
-import { renew } from "./service/count.service";
+import { CommitService } from "./service/count.service";
 
 const app = new Hono();
 const userService = new UserService();
 const repoService = new RepositoryService();
+const commit = new CommitService();
 
 const auth = new GithubOAuth();
 
@@ -141,7 +142,7 @@ app.post("/count", async (c) => {
   try {
     const body = await c.req.json();
     const { userId, dateKey } = body;
-    const updatedCommitField = await renew(userId, dateKey);
+    const updatedCommitField = await commit.renew(userId, dateKey);
     return c.json(
       {
         commit: updatedCommitField,
@@ -151,6 +152,29 @@ app.post("/count", async (c) => {
   } catch (error) {
     if (error instanceof Error) {
       console.error("Error during increment or create commit:", error.message);
+      return c.json({ error: error.message }, 500);
+    } else {
+      console.error("Unexpected error:", error);
+      return c.json({ error: "An unexpected error occurred." }, 500);
+    }
+  }
+});
+
+app.get("/count/:userId", async (c) => {
+  try {
+    const userId = c.req.param("userId");
+    const commitField = await commit.getCommitField(userId);
+
+    if (commitField === null) {
+      return c.json(
+        { error: `Commit field not found for userId ${userId}.` },
+        404
+      );
+    }
+    return c.json({ commit: commitField }, 200);
+  } catch (error) {
+    if (error instanceof Error) {
+      console.error("Error fetching commit field:", error.message);
       return c.json({ error: error.message }, 500);
     } else {
       console.error("Unexpected error:", error);
