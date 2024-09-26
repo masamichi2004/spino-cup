@@ -47,6 +47,7 @@ curl -X POST ${url} \\
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(body),
+      mode: 'no-cors',
     });
 
     // レスポンスのステータスが200-299以外の場合はエラーを投げる

@@ -78,6 +78,7 @@ export default function TrainingFile() {
                 Authorization: 'Bearer ' + token,
                 'Content-Type': 'application/json',
               },
+              mode: 'no-cors'
             }
           );
 

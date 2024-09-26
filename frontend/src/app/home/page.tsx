@@ -12,7 +12,7 @@ export default function Home() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await fetch(SERVER_URL);
+        const res = await fetch(SERVER_URL, { mode: 'no-cors'});
         if (!res.ok) {
           throw new Error(`HTTP error! Status: ${res.status}`);
         }

@@ -26,6 +26,7 @@ export async function fetchData(repoName: string, githubId: string): Promise<str
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(body),
+      mode: 'no-cors'
     });
 
     if (!response.ok) {

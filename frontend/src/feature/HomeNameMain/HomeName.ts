@@ -4,6 +4,7 @@ const HomeName = async (userId: string) => {
       headers: {
         'Content-Type': 'application/json',
       },
+      mode: 'no-cors',
     });
 
     if (!response.ok) {
@@ -44,6 +45,7 @@ const getRepo = async (userId: string) => {
       headers: {
         'Content-Type': 'application/json',
       },
+      mode: 'no-cors',
     });
 
     if (!response.ok) {
