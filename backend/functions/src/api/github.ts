@@ -1,4 +1,3 @@
-import fetch from "node-fetch";
 import "dotenv/config";
 import { Repository } from "../model/repository.model";
 

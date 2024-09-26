@@ -1,10 +1,9 @@
-import { serve } from "@hono/node-server";
 import { Hono } from "hono";
-import { CorsConfig } from "./middleware/cors";
-import { UserService } from "./service/user.service";
-import { RepositoryService } from "./service/repository.service";
-import { GithubOAuth } from "./api/auth.github";
-import { Github } from "./api/github";
+import { CorsConfig } from "../middleware/cors";
+import { UserService } from "../service/user.service";
+import { RepositoryService } from "../service/repository.service";
+import { GithubOAuth } from "../api/auth.github";
+import { Github } from "../api/github";
 
 const app = new Hono();
 const userService = new UserService();
@@ -13,14 +12,6 @@ const repoService = new RepositoryService();
 const auth = new GithubOAuth();
 
 app.use("/*", CorsConfig.policy);
-
-const port = 8080;
-console.log(`Server is running on port ${port}`);
-
-serve({
-  fetch: app.fetch,
-  port,
-});
 
 app.get("/repos/:userId", async (c) => {
   const userId = c.req.param("userId");
@@ -68,7 +59,7 @@ app.get("/auth/github/callback", async (c) => {
   try {
     const user = await auth.validate(c);
     await userService.create(user);
-    return c.redirect(`http://localhost:3000/home/${user.userId}`);
+    return c.redirect(`${process.env.FRONTEND_URL}/home/${user.userId}`);
   } catch (e) {
     throw e;
   }
@@ -107,7 +98,9 @@ app.post("/create/repo", async (c) => {
       return c.text("Failed to create a repository", 500);
     }
 
-    return c.json({ redirectUrl: `http://localhost:3000/home/${githubId}/${repoName}` });
+    return c.json({
+      redirectUrl: `${process.env.FRONTEND_URL}/home/${githubId}/${repoName}`,
+    });
   } catch (error) {
     console.error("Error in /create/repo:", error);
     return c.text("Internal Server Error", 500);
@@ -133,3 +126,5 @@ app.post("/commit", async (c) => {
 
   return c.json({ message: "success", status_code: 200 });
 });
+
+export { app };
