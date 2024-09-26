@@ -36,6 +36,7 @@ export function NewRepositoryButton() {
               onChange={(e) => setPart(e.target.value)}
               value={part}
               className="col-span-3"
+              autoComplete="off"
             />
           </div>
         </div>

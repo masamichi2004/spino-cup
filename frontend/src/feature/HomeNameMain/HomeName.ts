@@ -38,4 +38,23 @@ const getFromLocalStorage = (key: string) => {
   }
 };
 
-export { HomeName, saveToLocalStorage, getFromLocalStorage };
+const getRepo = async (userId: string) => {
+  try {
+    const response = await fetch(`http://localhost:8080/repos/${userId}`, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`Error: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    return undefined;
+  }
+}
+
+export { HomeName, saveToLocalStorage, getFromLocalStorage, getRepo };
