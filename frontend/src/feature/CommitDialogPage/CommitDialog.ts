@@ -6,7 +6,7 @@ export async function postWorkoutData(
   dirName: string,
   sets: { weight: number; reps: number }[]
 ) {
-  const url = `http://localhost:8080/commit`;
+  const url = `https://default-1018624218403.asia-northeast1.run.app/commit`;
   const timestamp = Date.now().toString();
 
   // localStorageからトークンを取得

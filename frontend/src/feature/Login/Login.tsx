@@ -15,7 +15,7 @@ export default function LoginCard() {
   const handleLogin = async () => {
     try {
       // GitHub認証URLにリダイレクト
-      router.push('http://localhost:8080/auth/github');
+      router.push('https://default-1018624218403.asia-northeast1.run.app/auth/github');
     } catch (error) {
       console.error('An error occurred during login:', error);
     }

@@ -71,7 +71,7 @@ export default function TrainingFile() {
       const fetchData = async () => {
         try {
           const response = await fetch(
-            `http://localhost:8080/dirs/${userId}/${repoName}`,
+            `https://default-1018624218403.asia-northeast1.run.app/dirs/${userId}/${repoName}`,
             {
               method: 'GET',
               headers: {

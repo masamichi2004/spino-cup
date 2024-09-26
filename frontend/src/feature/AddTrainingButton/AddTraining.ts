@@ -2,7 +2,7 @@
 
 const fetchPart = async (training: string) => {
   try {
-    const response = await fetch(`http://localhost:8080/${training}`, {
+    const response = await fetch(`https://default-1018624218403.asia-northeast1.run.app/${training}`, {
       mode: 'cors',
       method: 'GET',
       headers: {

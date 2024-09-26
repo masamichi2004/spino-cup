@@ -1,6 +1,6 @@
 const HomeName = async (userId: string) => {
   try {
-    const response = await fetch(`http://localhost:8080/user/${userId}`, {
+    const response = await fetch(`https://default-1018624218403.asia-northeast1.run.app/user/${userId}`, {
       headers: {
         'Content-Type': 'application/json',
       },
@@ -40,7 +40,7 @@ const getFromLocalStorage = (key: string) => {
 
 const getRepo = async (userId: string) => {
   try {
-    const response = await fetch(`http://localhost:8080/repos/${userId}`, {
+    const response = await fetch(`https://default-1018624218403.asia-northeast1.run.app/repos/${userId}`, {
       headers: {
         'Content-Type': 'application/json',
       },

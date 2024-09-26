@@ -11,7 +11,7 @@ export async function fetchData(repoName: string, githubId: string): Promise<str
     return undefined;
   }
 
-  const url = `http://localhost:8080/create/repo`;
+  const url = `https://default-1018624218403.asia-northeast1.run.app/create/repo`;
 
   const body = {
     repoName: repoName,

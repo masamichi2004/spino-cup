@@ -43,7 +43,7 @@ const DirFile = () => {
       if (!token) return; // Ensure the token is available
 
       try {
-        const response = await fetch(`http://localhost:8080/dirs/${userId}/${repoName}?path=${filePath}`, {
+        const response = await fetch(`https://default-1018624218403.asia-northeast1.run.app/dirs/${userId}/${repoName}?path=${filePath}`, {
           method: 'GET',
           headers: {
             'Authorization': `Bearer ${token}`,

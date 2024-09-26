@@ -7,7 +7,7 @@ export default function Home() {
   const [message, setMessage] = useState<string | undefined>(undefined);
   const [error, setError] = useState<string | null>(null);
 
-  const SERVER_URL = 'http://localhost:8080';
+  const SERVER_URL = 'https://default-1018624218403.asia-northeast1.run.app';
 
   useEffect(() => {
     const fetchData = async () => {
