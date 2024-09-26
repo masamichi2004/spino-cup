@@ -7,6 +7,7 @@ export class CorsConfig {
       "http://spino-cup.vercel.app",
       "https://github.com",
       "https://api.github.com",
+      "https://default-1018624218403.asia-northeast1.run.app",
     ],
     allowHeaders: [
       "X-Custom-Header",
