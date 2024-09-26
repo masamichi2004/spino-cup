@@ -1,12 +1,13 @@
 'use client';
 
 import { useEffect, useState } from "react";
-import { HomeName, saveToLocalStorage } from "./HomeName";
+import { getRepo, HomeName, saveToLocalStorage } from "./HomeName";
 import useSegment from "@/src/hooks/useSegment";
 
 export const useHomeName = () => {
   const { lastSegment } = useSegment();
   const userId = lastSegment;
+  const [repos, setRepos] = useState<any>(null);  // ここでuseStateを定義
   const [data, setData] = useState<any>(null);
   const [loading, setLoading] = useState<boolean>(true);
 
@@ -16,10 +17,12 @@ export const useHomeName = () => {
         try {
           const result = await HomeName(userId);
           setData(result);
-          
-          // データを localStorage に保存
-          saveToLocalStorage('homeNameData', result);
 
+          const fetchedRepos = await getRepo(userId);
+          setRepos(fetchedRepos);
+          
+          // データをlocalStorageに保存
+          saveToLocalStorage('homeNameData', result);
         } catch (error) {
           console.error("Error fetching data:", error);
         } finally {
@@ -32,5 +35,5 @@ export const useHomeName = () => {
     fetchData();
   }, [userId]);
 
-  return { data, loading };
+  return { data, loading, repos };
 };

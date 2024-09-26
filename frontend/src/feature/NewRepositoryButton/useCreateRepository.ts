@@ -6,17 +6,17 @@ import { useState } from 'react';
 export const useCreateRepository = () => {
   const pathname = usePathname();
   const segments = pathname.split('/').filter(Boolean);
-  const name = segments[1];  // パスから取得した名前
-  const [part, setPart] = useState<string>('');  // リポジトリ名を格納する状態
+  const name = segments[1];
+  const [part, setPart] = useState<string>('');
 
   const router = useRouter();
 
   const handleClick = async () => {
     if (name && part) {
       try {
-        const redirectUrl = await fetchData(part, name);  // partを引数として渡す
+        const redirectUrl = await fetchData(part, name);
         if (redirectUrl) {
-          router.push(redirectUrl);  // 成功時にルート遷移
+          router.push(redirectUrl);
         } else {
           console.error('Error: redirectUrl is undefined or falsy');
         }

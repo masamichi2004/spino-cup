@@ -7,8 +7,11 @@ import { NewRepositoryButton } from '../NewRepositoryButton/NewRepositoryButton'
 import { useHomeName } from './useHomeName';
 import Loading from '@/src/app/loading';
 
+import { Repo } from "@/src/types/Repo";
+import { useRouter } from "next/navigation";
+
 export default function HomeNameMain() {
-  const { data, loading } = useHomeName();
+  const { data, loading, repos } = useHomeName();
 
   if (loading) {
     return <Loading />;
@@ -18,26 +21,10 @@ export default function HomeNameMain() {
     return <p>Error: Data not found</p>;
   }
 
-  const pinnedItems = [
-    {
-      title: 'chest',
-      visibility: 'Public',
-      language: 'Level 3',
-      color: 'bg-blue-500',
-    },
-    {
-      title: 'legs',
-      visibility: 'Private',
-      language: 'Level 2',
-      color: 'bg-yellow-500',
-    },
-    {
-      title: 'back',
-      visibility: 'Public',
-      language: 'Level 1',
-      color: 'bg-green-500',
-    },
-  ];
+  const router = useRouter();
+  const handleClick = (name: string, userId: string) => {
+    router.push(`/home/${userId}/${name}`);
+  };
 
   return (
     <div className="max-w-md mx-auto p-4 bg-white">
@@ -122,18 +109,16 @@ export default function HomeNameMain() {
           </a>
         </div>
         {/* pinnedItemsをmapでループ */}
-        {pinnedItems.map((item, index) => (
-          <div key={index} className="border rounded-lg p-4 mb-4">
-            <div className="flex items-center space-x-2">
-              <MonitorIcon className="w-5 h-5 text-gray-500" />
-              <span className="font-medium">{item.title}</span>
-              <span className="text-gray-500 text-sm">{item.visibility}</span>
+        {repos.map((repo : Repo) => (
+          <button className="w-full" onClick={() => handleClick(repo.name, repo.userId)}>
+            <div key={repo.name} className="border rounded-lg p-4 mb-4">
+              <div className="flex items-center space-x-2">
+                <MonitorIcon className="w-5 h-5 text-gray-500" />
+                <span className="font-medium">{repo.name}</span>
+                <span className="text-gray-500 text-sm">{repo.userId}</span>
+              </div>
             </div>
-            <div className="mt-2 flex items-center space-x-2">
-              <div className={`w-3 h-3 rounded-full ${item.color}`}></div>
-              <span>{item.language}</span>
-            </div>
-          </div>
+          </button>
         ))}
       </div>
     </div>
