@@ -1,10 +1,9 @@
-import { serve } from "@hono/node-server";
 import { Hono } from "hono";
-import { CorsConfig } from "./middleware/cors";
-import { UserService } from "./service/user.service";
-import { RepositoryService } from "./service/repository.service";
-import { GithubOAuth } from "./api/auth.github";
-import { GithubRepo } from "./api/repository.github";
+import { CorsConfig } from "../middleware/cors";
+import { UserService } from "../service/user.service";
+import { RepositoryService } from "../service/repository.service";
+import { GithubOAuth } from "../api/auth.github";
+import { Github } from "../api/github";
 
 const app = new Hono();
 const userService = new UserService();
@@ -13,14 +12,6 @@ const repoService = new RepositoryService();
 const auth = new GithubOAuth();
 
 app.use("/*", CorsConfig.policy);
-
-const port = 8080;
-console.log(`Server is running on port ${port}`);
-
-serve({
-  fetch: app.fetch,
-  port,
-});
 
 app.get("/repos/:userId", async (c) => {
   const userId = c.req.param("userId");
@@ -47,9 +38,9 @@ app.get("/dirs/:userId/:repoName", async (c) => {
   if (!token) {
     return c.text("Unauthorized", 401);
   }
-  const repo = new GithubRepo(token);
+  const git = new Github(token);
 
-  const dirs = await repo.getDirs(userId, repoName, filePath);
+  const dirs = await git.getDirs(userId, repoName, filePath);
   if (!dirs.length) {
     throw new Error("Failed to fetch directories");
   }
@@ -68,7 +59,7 @@ app.get("/auth/github/callback", async (c) => {
   try {
     const user = await auth.validate(c);
     await userService.create(user);
-    return c.redirect(`http://localhost:3000/home/${user.userId}`);
+    return c.redirect(`${process.env.FRONTEND_URL}/home/${user.userId}`);
   } catch (e) {
     throw e;
   }
@@ -91,7 +82,7 @@ app.post("/create/repo", async (c) => {
     if (!token) {
       return c.text("Unauthorized", 401);
     }
-    const repo = new GithubRepo(token);
+    const git = new Github(token);
 
     const { repoName, githubId } = await c.req.json();
 
@@ -102,12 +93,14 @@ app.post("/create/repo", async (c) => {
     const repository = { name: repoName, userId: githubId };
     await repoService.create(repository);
 
-    const repoData = await repo.create(repoName);
+    const repoData = await git.create(repoName);
     if (!repoData) {
       return c.text("Failed to create a repository", 500);
     }
 
-    return c.json({ redirectUrl: `http://localhost:3000/home/${githubId}/${repoName}` });
+    return c.json({
+      redirectUrl: `${process.env.FRONTEND_URL}/home/${githubId}/${repoName}`,
+    });
   } catch (error) {
     console.error("Error in /create/repo:", error);
     return c.text("Internal Server Error", 500);
@@ -125,11 +118,13 @@ app.post("/commit", async (c) => {
     return c.text("Unauthorized", 401);
   }
 
-  const repo = new GithubRepo(token);
+  const git = new Github(token);
 
   const { userId, repoName, dirName, jsonData, commitMessage } =
     await c.req.json();
-  await repo.commit(userId, repoName, dirName, jsonData, commitMessage);
+  await git.commit(userId, repoName, dirName, jsonData, commitMessage);
 
   return c.json({ message: "success", status_code: 200 });
 });
+
+export { app };
