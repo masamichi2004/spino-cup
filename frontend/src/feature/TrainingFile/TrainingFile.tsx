@@ -43,7 +43,7 @@ export default function TrainingFile() {
   const [files, setFiles] = useState<FileItem[]>([]);
   const [token, setToken] = useState<string | null>(null);
   const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
-  
+
   const handleSubmit = () => {
     <Loading />;
     if (dir) {
@@ -52,9 +52,9 @@ export default function TrainingFile() {
     setIsDialogOpen(false);
   };
 
-  const handleClick = (filename : string) => {
+  const handleClick = (filename: string) => {
     router.push(`/home/${userId}/${repoName}/${filename}`);
-  } 
+  }
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
