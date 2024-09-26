@@ -9,7 +9,7 @@ type DirectoryItem = {
   type: string;
 };
 
-export class GithubRepo {
+export class Github {
   private accessToken: string;
 
   constructor(accessToken: string) {
