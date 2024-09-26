@@ -1,47 +1,65 @@
-"use client"
+"use client";
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react';
 
-const contributionData = {
-  "commit": {
-    "20240926": 2,
-    "20240928": 5
-  }
-}
-
-const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
 const getColor = (count: number) => {
-  if (count === 0) return 'bg-gray-100'
-  if (count < 3) return 'bg-palegreen'
-  if (count < 6) return 'bg-lightgreen'
-  if (count < 9) return 'bg-green'
-  return 'bg-green-500'
-}
+  if (count === 0) return 'bg-gray-100';
+  if (count < 3) return 'bg-palegreen';
+  if (count < 6) return 'bg-lightgreen';
+  if (count < 9) return 'bg-green';
+  return 'bg-green-500';
+};
 
 export default function ContributionGraph() {
-  const [days, setDays] = useState<Date[]>([])
+  const [days, setDays] = useState<Date[]>([]);
+  const [contributionData, setContributionData] = useState<{ commit: { [key: string]: number } }>({ commit: {} });
 
   useEffect(() => {
-    const today = new Date()
-    const oneYearAgo = new Date(today)
-    oneYearAgo.setFullYear(today.getFullYear() - 1)
+    const today = new Date();
+    const oneYearAgo = new Date(today);
+    oneYearAgo.setFullYear(today.getFullYear() - 1);
 
-    const allDays = []
+    const allDays = [];
     for (let d = new Date(oneYearAgo); d <= today; d.setDate(d.getDate() + 1)) {
-      allDays.push(new Date(d))
+      allDays.push(new Date(d));
     }
-    setDays(allDays)
-  }, [])
+    setDays(allDays);
+
+    const fetchData = async () => {
+      try {
+        const response = await fetch('http://localhost:8080/count', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            userId: 'exampleUserId',
+            dateKey: '20240926',
+          }),
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        setContributionData(data); // サーバーから取得したデータをセット
+      } catch (error) {
+        console.error('Error fetching contribution data:', error);
+      }
+    };
+
+    fetchData(); // データ取得関数を呼び出す
+  }, []);
 
   return (
     <div className="p-4 bg-white rounded-lg shadow-md">
       <div className="flex flex-wrap gap-1">
         {days.map((day, index) => {
-          const dateString = day.toISOString().split('T')[0].replace(/-/g, '')
-
-          // 型チェック: contributionData.commit に dateString キーが存在するか確認
-          const count = contributionData.commit[dateString as keyof typeof contributionData.commit] || 0
+          const dateString = day.toISOString().split('T')[0].replace(/-/g, '');
+          const count = contributionData.commit[dateString] || 0; // サーバーから取得したデータを使う
 
           return (
             <div key={index} className="relative group">
@@ -53,7 +71,7 @@ export default function ContributionGraph() {
                 {day.toDateString()}: {count} contributions
               </div>
             </div>
-          )
+          );
         })}
       </div>
       <div className="flex justify-between mt-2">
@@ -69,5 +87,5 @@ export default function ContributionGraph() {
         <span className="text-xs text-gray-500 ml-1">More</span>
       </div>
     </div>
-  )
+  );
 }
