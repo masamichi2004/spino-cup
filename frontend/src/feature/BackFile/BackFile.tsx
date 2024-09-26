@@ -9,20 +9,22 @@ const BackFile = () => {
         <div>
           <div className='flex'>
             <div className='ml-2 mr-4 flex items-center'>
-              <div className='mr-2'>
-                <img src="/arrow.png" alt="githubのiconの代わり" className='w-4 h-4' />
-              </div>
-              <div>
-                <h1 className='text-xs'>Back</h1>
-              </div>
+              <button className='flex items-center' onClick={() => window.history.back()}>
+                <div className='mr-2'>
+                  <img src="/arrow.png" alt="githubのiconの代わり" className='w-4 h-4' />
+                </div>
+                <div>
+                  <h1 className='text-xs'>Back</h1>
+                </div>
+              </button>
             </div>
             <div>
-              <Accordion/>
+              <Accordion />
             </div>
           </div>
           <div>
             <div className='mt-2'>
-              <BackLink/>
+              <BackLink />
             </div>
           </div>
         </div>
